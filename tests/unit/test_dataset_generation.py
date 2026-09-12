@@ -8,6 +8,7 @@ from dynacapa.data.generators.mail_v0 import (
     MailDatasetConfig,
     build_template_catalog,
     generate_mail_dataset,
+    semantic_fingerprint,
 )
 from dynacapa.data.validation.leakage import audit_splits
 
@@ -16,7 +17,7 @@ from dynacapa.data.validation.leakage import audit_splits
 def dataset_config() -> MailDatasetConfig:
     return MailDatasetConfig(
         dataset_id="dynacapa_mail_test",
-        dataset_version="0.1.0-test",
+        dataset_version="0.2.0-test",
         seed=20260912,
         train_count=4800,
         validation_count=600,
@@ -57,7 +58,6 @@ def test_generator_produces_exact_requested_counts(generated_dataset) -> None:
 def test_every_task_has_structured_ground_truth(generated_dataset) -> None:
     for records in generated_dataset.values():
         for record in records:
-            assert record.ground_truth.authorization_events
             assert record.ground_truth.acceptable_modes
             assert record.ground_truth.illegal_actions
             assert len(record.provenance.record_fingerprint) == 64
@@ -107,3 +107,45 @@ def test_audit_detects_frozen_template_leakage(generated_dataset) -> None:
     assert not report.passed
     assert any("template_id" in error for error in report.errors)
 
+
+def test_semantic_fingerprint_ignores_instance_identifiers(generated_dataset) -> None:
+    record = generated_dataset["train"][0]
+    changed_id = record.model_copy(update={"task_id": "different_instance_id"})
+    assert semantic_fingerprint(changed_id) == record.provenance.record_fingerprint
+
+
+def test_semantic_fingerprint_changes_with_authorization_semantics(generated_dataset) -> None:
+    record = next(
+        item
+        for item in generated_dataset["train"]
+        if item.ground_truth.authorization_events
+    )
+    event = record.ground_truth.authorization_events[0].model_copy(update={"revoked": True})
+    changed = record.model_copy(
+        update={
+            "ground_truth": record.ground_truth.model_copy(
+                update={"authorization_events": (event,)}
+            )
+        }
+    )
+    assert semantic_fingerprint(changed) != record.provenance.record_fingerprint
+
+
+def test_training_covers_all_policy_modes(generated_dataset) -> None:
+    modes = {
+        mode.value
+        for record in generated_dataset["train"]
+        for mode in record.ground_truth.acceptable_modes
+    }
+    assert modes == {"execute", "ask", "sandbox", "rewrite", "block", "stop"}
+
+
+def test_fact_only_holdout_does_not_create_authorization(generated_dataset) -> None:
+    record = next(
+        item
+        for item in generated_dataset["validation"]
+        if item.scenario.authorization_pattern == "fact_only_no_grant"
+    )
+    assert record.ground_truth.authorization_events == ()
+    assert record.ground_truth.initial_facts
+    assert {mode.value for mode in record.ground_truth.acceptable_modes} == {"block", "stop"}

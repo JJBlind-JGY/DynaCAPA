@@ -1,0 +1,32 @@
+{
+  "controlled_vocabularies": {
+    "policy_mode": [
+      "execute",
+      "ask",
+      "sandbox",
+      "rewrite",
+      "block",
+      "stop"
+    ],
+    "split": [
+      "train",
+      "validation",
+      "frozen_test"
+    ]
+  },
+  "dataset_id": "dynacapa_mail_v0_2",
+  "dataset_version": "0.2.0",
+  "fields": {
+    "context_messages": "Content plus explicit provenance; content never grants rights.",
+    "diagnostic_group": "IID, one-factor validation holdout, or composite OOD.",
+    "ground_truth": "Rights, facts, legal/illegal actions, effects, modes, confirmations.",
+    "natural_language_request": "Authenticated user's requested Mail operation.",
+    "provenance": "Dataset/generator versions, template ID, seed, semantic hash.",
+    "scenario": "Attack, authorization, schema, source, and horizon factors.",
+    "split": "train, validation, or frozen_test.",
+    "task_id": "Unique generated instance identifier; not a semantic feature."
+  },
+  "format": "UTF-8 JSON Lines; one independently valid record per line",
+  "missing_value_policy": "Fields are explicit; absent optional values serialize as null.",
+  "record_schema": "dynacapa.data.task_schema.MailTaskRecord"
+}

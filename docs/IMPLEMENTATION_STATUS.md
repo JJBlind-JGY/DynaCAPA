@@ -17,8 +17,7 @@ Updated: 2026-09-12
 | Task 011 Shield | Complete v0.1 | Pass-through by independent copy, confirmation-to-ask, and unsafe-to-block resolution |
 | Task 012 Trajectory Logger | Complete v0.1 | Append-only JSON writer that refuses overwrite |
 | Task 013 Snapshot Replay Test | Complete v0.1 | Unit/regression coverage plus 10,000-pair deterministic stress audit |
-| Task 014 Dataset Generator v0 | Next | Canonical Mail templates and split-aware instantiation |
-| Task 015 D-CAPA Benchmark | Blocked by Task 014 | Gate A semantic and severe-violation metrics require the frozen annotated dataset |
+| Task 014 Dataset Generator v0 | Complete v0.2 | 60 templates; 4,800/600/1,200 records; semantic fingerprints; six validation groups; strictly isolated frozen test; tracked hashes and 30 canonical cases |
+| Task 015 D-CAPA Benchmark | Next | Measure deterministic verifier correctness and failure taxonomy without model training |
 
 No SFT, DPO, DACPO, VICC training, File/DB domain, external benchmark, or real side-effect integration has been started. This is intentional gate compliance, not an implementation omission disguised as completion.
-

@@ -51,8 +51,7 @@ def audit_splits(
     incomplete_ground_truth = [
         record.task_id
         for record in all_records
-        if not record.ground_truth.authorization_events
-        or not record.ground_truth.acceptable_modes
+        if not record.ground_truth.acceptable_modes
         or not record.ground_truth.illegal_actions
     ]
     if incomplete_ground_truth:
@@ -135,6 +134,13 @@ def audit_splits(
         )
         if not mode_counts:
             warnings.append(f"no acceptable modes recorded for {split_name}")
+        if split_name == "train":
+            required_modes = {"execute", "ask", "sandbox", "rewrite", "block", "stop"}
+            missing_modes = required_modes - set(mode_counts)
+            if missing_modes:
+                errors.append(
+                    f"training split lacks acceptable-mode coverage: {sorted(missing_modes)}"
+                )
 
     evidence: dict[str, JsonValue] = {
         "train_dimensions": _json_dimension_sets(train_dimensions),

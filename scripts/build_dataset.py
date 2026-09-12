@@ -198,7 +198,7 @@ def build_artifacts(
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", default="configs/data/mail_v0.yaml")
+    parser.add_argument("--config", default="configs/data/mail_v0_2.yaml")
     parser.add_argument("--check-only", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
@@ -224,4 +224,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -11,6 +11,6 @@ Updated: 2026-09-12
 | No known misses for Schema/revocation/confirmation/scope | Canonical regression suite | Initial suite passes; adversarial expansion pending |
 | Semantic extraction macro-F1 >= 0.90 | Requires annotated frozen validation set | Not started |
 | Severe-violation recall >= 0.98 | Requires annotated frozen validation set | Not started |
-| Frozen split isolation | Requires task generator and split manifest | Not started |
+| Frozen split isolation | `dynacapa_mail_v0_2`: template, authorization pattern, attack expression, source combination, and Schema version are disjoint from training; all 6,600 semantic fingerprints are unique | Initial leakage audit passes |
 
 Because the full gate is not passed, `configs/experiments/phase0_mail.yaml` keeps `training_enabled: false`. Passing infrastructure tests must not be reported as passing Gate A.

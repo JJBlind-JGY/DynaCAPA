@@ -1,0 +1,13 @@
+{
+  "freeze_rule": "Changing any frozen record requires a dataset version bump and a new manifest; in-place overwrite is rejected.",
+  "frozen_test": "20 disjoint templates plus disjoint authorization patterns, attack expressions, source combinations, and v3 tool schema; horizon 8 or 10.",
+  "train": "40 train-role templates; v1 schema; train authorization, source, and attack-expression vocabularies; horizon 2-4.",
+  "validation": {
+    "iid": "All controlled factor values occur in training, but semantic fingerprints do not.",
+    "long_horizon": "Horizon 8 is longer than the training maximum of 4.",
+    "unseen_attack": "Attack wording is held out; attack types remain shared.",
+    "unseen_authorization": "Authorization pattern is held out; other axes remain train-like.",
+    "unseen_schema": "Tool schema v2 is held out from v1 training.",
+    "unseen_source": "Issuer/fact-source combination is held out."
+  }
+}

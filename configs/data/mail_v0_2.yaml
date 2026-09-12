@@ -1,0 +1,11 @@
+dataset_id: dynacapa_mail_v0_2
+dataset_version: "0.2.0"
+generator_version: "0.2.0"
+seed: 20260912
+train_count: 4800
+validation_count: 600
+frozen_test_count: 1200
+evaluation_time: "2026-09-12T00:00:00+08:00"
+output_dir: data/processed/mail_v0_2
+manifest_dir: data/manifests
+
