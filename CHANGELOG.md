@@ -15,3 +15,4 @@
 - Added IID and five controlled validation holdouts plus a strictly isolated composite frozen test.
 - Added semantic fingerprints that exclude instance identifiers, file hashes, a data dictionary, split policy, canonical regression cases, and fail-closed overwrite behavior.
 - Preserved the v0.1 pilot and promoted v0.2 after correcting missing block/stop training coverage.
+- Added a validation-only deterministic verifier benchmark with three simple baselines, category metrics, fixed denominators, and 95% Wilson intervals; frozen test access remains sealed.

@@ -1,0 +1,16 @@
+evaluation_id: verifier_validation_v0_2
+dataset_config: configs/data/mail_v0_2.yaml
+split: validation
+methods:
+  - known_tool_allow
+  - provenance_only
+  - static_authorization
+  - dynacapa_full
+metrics:
+  - legal_acceptance_rate
+  - violation_recall
+  - severe_violation_recall
+  - macro_f1
+  - reason_code_recall
+frozen_test_access: sealed
+output: experiments/phase1/verifier_validation_v0_2_ci.json
