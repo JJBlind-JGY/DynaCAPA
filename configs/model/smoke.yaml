@@ -1,0 +1,7 @@
+model:
+  id: Qwen/Qwen3-0.6B
+  purpose: pipeline_smoke_only
+  max_context_tokens: 4096
+  max_tool_rounds: 8
+  rollout_samples_per_task: 4
+

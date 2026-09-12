@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+pytest-cache-files-*/
+.hypothesis/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments and editor state
+.conda/
+.venv/
+.env
+.idea/
+.vscode/
+
+# Local scratch files
+.codex_tmp/
+*.tmp
+
+# Large or generated research artifacts
+data/raw/**
+data/processed/**
+data/splits/**
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/splits/.gitkeep
+!data/manifests/**
+outputs/**
+!outputs/.gitkeep
+
+# Model artifacts must never enter Git
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+checkpoints/
+wandb/

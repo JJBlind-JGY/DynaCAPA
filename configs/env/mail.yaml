@@ -1,0 +1,9 @@
+env:
+  name: mail
+  version: "0.1.0"
+  max_tool_rounds: 8
+  real_side_effects: false
+  supported_tools:
+    - create_draft
+    - send_email
+

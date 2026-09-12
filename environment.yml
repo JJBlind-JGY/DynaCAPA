@@ -1,0 +1,9 @@
+name: dynacapa
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11.13
+  - pip=25.2
+  - pip:
+      - -r requirements/phase0-py311.lock.txt
+      - -e .

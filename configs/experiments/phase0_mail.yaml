@@ -1,0 +1,10 @@
+experiment:
+  id: phase0_mail_vertical_v0
+  phase: phase0
+  seed: 20260912
+  env_config: configs/env/mail.yaml
+  model_config: configs/model/smoke.yaml
+  verifier_version: "0.1.0"
+  gate: A
+  training_enabled: false
+

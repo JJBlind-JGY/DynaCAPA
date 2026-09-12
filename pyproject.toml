@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling==1.32.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dynacapa-rl"
+version = "0.1.0"
+description = "Dynamic capability authorization and verifiable RL for trustworthy tool agents"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { text = "Proprietary research code" }
+authors = [{ name = "DynaCAPA-RL Research Project" }]
+dependencies = [
+  "pydantic==2.13.5",
+  "PyYAML==6.0.3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "hypothesis==6.168.0",
+  "pytest==9.1.1",
+  "pytest-cov==7.1.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dynacapa"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --strict-config -p no:cacheprovider"
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = [
+  "integration: cross-component deterministic integration tests",
+  "regression: frozen behavior regression tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["dynacapa"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

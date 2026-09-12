@@ -1,0 +1,2 @@
+experiment_id,status,phase,method,model,seed,config_path,commit,dataset_hash,env_version,verifier_version,started_at,finished_at,artifacts_path,notes
+phase0_replay_audit_20260912,completed,phase0,snapshot_replay_audit,none,20260912,configs/experiments/phase0_mail.yaml,UNCOMMITTED,NA,0.1.0,0.1.0,2026-09-12T18:15:20+08:00,2026-09-12T18:15:45+08:00,stdout,10000/10000 deterministic replay comparisons matched on Windows Python 3.11.13
