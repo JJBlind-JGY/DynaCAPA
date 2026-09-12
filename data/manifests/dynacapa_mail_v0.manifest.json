@@ -1,0 +1,249 @@
+{
+  "access_route": "private research repository during benchmark construction",
+  "dataset_id": "dynacapa_mail_v0",
+  "dataset_version": "0.1.0",
+  "files": {
+    "frozen_test": {
+      "bytes": 3597625,
+      "path": "data/processed/mail_v0/frozen_test.jsonl",
+      "records": 1200,
+      "sha256": "b3e33772d8a6766421abfc92a87921bdcaaf092969d3462b0657acb7382ccaf5"
+    },
+    "train": {
+      "bytes": 13200711,
+      "path": "data/processed/mail_v0/train.jsonl",
+      "records": 4800,
+      "sha256": "36670a3f3ffffc3608bb7391908664e0f9d6326e211b0ca55115cc1cadb679e3"
+    },
+    "validation": {
+      "bytes": 1676690,
+      "path": "data/processed/mail_v0/validation.jsonl",
+      "records": 600,
+      "sha256": "d2adf99ab05fe69fef7a393e4b509ba5bdff6fd7e70c05044df7a70a74068701"
+    }
+  },
+  "generator_seed": 20260912,
+  "generator_version": "0.1.0",
+  "leakage_audit": {
+    "counts": {
+      "frozen_test": 1200,
+      "train": 4800,
+      "validation": 600
+    },
+    "errors": [],
+    "evidence": {
+      "acceptable_mode_distribution": {
+        "frozen_test": {
+          "ask": 403,
+          "block": 383,
+          "execute": 414,
+          "rewrite": 414,
+          "sandbox": 414,
+          "stop": 383
+        },
+        "train": {
+          "ask": 1218,
+          "execute": 3582,
+          "rewrite": 3582,
+          "sandbox": 3582
+        },
+        "validation": {
+          "ask": 129,
+          "block": 100,
+          "execute": 371,
+          "rewrite": 371,
+          "sandbox": 371,
+          "stop": 100
+        }
+      },
+      "attack_distribution": {
+        "frozen_test": {
+          "none": 197,
+          "prompt_injection": 199,
+          "schema_confusion": 187,
+          "scope_escalation": 214,
+          "source_conflict": 202,
+          "stale_authorization": 201
+        },
+        "train": {
+          "none": 813,
+          "prompt_injection": 767,
+          "schema_confusion": 864,
+          "scope_escalation": 775,
+          "source_conflict": 772,
+          "stale_authorization": 809
+        },
+        "validation": {
+          "none": 115,
+          "prompt_injection": 89,
+          "schema_confusion": 98,
+          "scope_escalation": 91,
+          "source_conflict": 103,
+          "stale_authorization": 104
+        }
+      },
+      "frozen_test_dimensions": {
+        "attack_expression_id": [
+          "none:frozen:0",
+          "none:frozen:1",
+          "prompt_injection:frozen:0",
+          "prompt_injection:frozen:1",
+          "schema_confusion:frozen:0",
+          "schema_confusion:frozen:1",
+          "scope_escalation:frozen:0",
+          "scope_escalation:frozen:1",
+          "source_conflict:frozen:0",
+          "source_conflict:frozen:1",
+          "stale_authorization:frozen:0",
+          "stale_authorization:frozen:1"
+        ],
+        "authorization_pattern": [
+          "conditional_confirmation",
+          "delegated_then_revoked",
+          "multi_event_narrowing"
+        ],
+        "source_combination": [
+          "system+contact_db",
+          "system+trusted_system"
+        ],
+        "template_id": [
+          "mail_tpl_06",
+          "mail_tpl_07",
+          "mail_tpl_08",
+          "mail_tpl_09",
+          "mail_tpl_16",
+          "mail_tpl_17",
+          "mail_tpl_18",
+          "mail_tpl_19",
+          "mail_tpl_27",
+          "mail_tpl_28",
+          "mail_tpl_29",
+          "mail_tpl_37",
+          "mail_tpl_38",
+          "mail_tpl_39",
+          "mail_tpl_47",
+          "mail_tpl_48",
+          "mail_tpl_49",
+          "mail_tpl_57",
+          "mail_tpl_58",
+          "mail_tpl_59"
+        ],
+        "tool_schema_version": [
+          "v3"
+        ]
+      },
+      "train_dimensions": {
+        "attack_expression_id": [
+          "none:train:0",
+          "none:train:1",
+          "none:train:2",
+          "none:train:3",
+          "prompt_injection:train:0",
+          "prompt_injection:train:1",
+          "prompt_injection:train:2",
+          "prompt_injection:train:3",
+          "schema_confusion:train:0",
+          "schema_confusion:train:1",
+          "schema_confusion:train:2",
+          "schema_confusion:train:3",
+          "scope_escalation:train:0",
+          "scope_escalation:train:1",
+          "scope_escalation:train:2",
+          "scope_escalation:train:3",
+          "source_conflict:train:0",
+          "source_conflict:train:1",
+          "source_conflict:train:2",
+          "source_conflict:train:3",
+          "stale_authorization:train:0",
+          "stale_authorization:train:1",
+          "stale_authorization:train:2",
+          "stale_authorization:train:3"
+        ],
+        "authorization_pattern": [
+          "conditional_approved",
+          "confirmation_pending",
+          "direct_grant",
+          "target_scoped"
+        ],
+        "source_combination": [
+          "user+contact_db",
+          "user+trusted_tool"
+        ],
+        "template_id": [
+          "mail_tpl_00",
+          "mail_tpl_01",
+          "mail_tpl_02",
+          "mail_tpl_03",
+          "mail_tpl_04",
+          "mail_tpl_05",
+          "mail_tpl_10",
+          "mail_tpl_11",
+          "mail_tpl_12",
+          "mail_tpl_13",
+          "mail_tpl_14",
+          "mail_tpl_15",
+          "mail_tpl_20",
+          "mail_tpl_21",
+          "mail_tpl_22",
+          "mail_tpl_23",
+          "mail_tpl_24",
+          "mail_tpl_25",
+          "mail_tpl_26",
+          "mail_tpl_30",
+          "mail_tpl_31",
+          "mail_tpl_32",
+          "mail_tpl_33",
+          "mail_tpl_34",
+          "mail_tpl_35",
+          "mail_tpl_36",
+          "mail_tpl_40",
+          "mail_tpl_41",
+          "mail_tpl_42",
+          "mail_tpl_43",
+          "mail_tpl_44",
+          "mail_tpl_45",
+          "mail_tpl_46",
+          "mail_tpl_50",
+          "mail_tpl_51",
+          "mail_tpl_52",
+          "mail_tpl_53",
+          "mail_tpl_54",
+          "mail_tpl_55",
+          "mail_tpl_56"
+        ],
+        "tool_schema_version": [
+          "v1"
+        ]
+      },
+      "validation_group_counts": {
+        "iid": 100,
+        "long_horizon": 100,
+        "unseen_attack": 100,
+        "unseen_authorization": 100,
+        "unseen_schema": 100,
+        "unseen_source": 100
+      }
+    },
+    "passed": true,
+    "warnings": []
+  },
+  "license": null,
+  "logical_generation_time": "2026-09-12T00:00:00+08:00",
+  "metadata_files": {
+    "canonical_cases": "data/manifests/dynacapa_mail_v0.canonical_cases.json",
+    "data_dictionary": "data/manifests/dynacapa_mail_v0.data_dictionary.json",
+    "split_policy": "data/manifests/dynacapa_mail_v0.split_policy.json",
+    "template_catalog": "data/manifests/dynacapa_mail_v0.template_catalog.json"
+  },
+  "persistent_identifier": null,
+  "publication_status": "internal_pre_release",
+  "unresolved_publication_metadata": [
+    "public repository",
+    "persistent identifier",
+    "dataset creators",
+    "publisher/repository",
+    "publication year",
+    "license",
+    "related paper identifier"
+  ]
+}
