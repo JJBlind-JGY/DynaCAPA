@@ -1,0 +1,10 @@
+review_id: mail_v0_2_validation_review
+seed: 20260912
+split: validation
+sample_size: 600
+double_review_count: 60
+reviewer_slots:
+  - primary
+  - secondary
+output_dir: data/review/mail_v0_2_validation
+

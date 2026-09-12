@@ -25,9 +25,11 @@ htmlcov/
 data/raw/**
 data/processed/**
 data/splits/**
+data/review/**
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/splits/.gitkeep
+!data/review/.gitkeep
 !data/manifests/**
 outputs/**
 !outputs/.gitkeep

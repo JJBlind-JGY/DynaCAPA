@@ -1,0 +1,39 @@
+{
+  "double_review_group_counts": {
+    "iid": 10,
+    "long_horizon": 10,
+    "unseen_attack": 10,
+    "unseen_authorization": 10,
+    "unseen_schema": 10,
+    "unseen_source": 10
+  },
+  "double_review_tasks": 60,
+  "files": {
+    "adjudication_key_jsonl": {
+      "bytes": 404176,
+      "path": "data/review/mail_v0_2_validation/adjudication_key.jsonl",
+      "sha256": "6354a59cd4fa5fddefd81f0c71dc92ace4b6ad81d7be793d2b1da01247e247bd"
+    },
+    "blinded_review_csv": {
+      "bytes": 805076,
+      "path": "data/review/mail_v0_2_validation/blinded_review.csv",
+      "sha256": "f9338451bc5d5b0646d57c09c685e5ad1b14c95e963034fee8d4f5106d6cc90c"
+    }
+  },
+  "gold_blinded": true,
+  "primary_group_counts": {
+    "iid": 100,
+    "long_horizon": 100,
+    "unseen_attack": 100,
+    "unseen_authorization": 100,
+    "unseen_schema": 100,
+    "unseen_source": 100
+  },
+  "review_id": "mail_v0_2_validation_review",
+  "review_rows": 660,
+  "reviewer_identities": null,
+  "seed": 20260912,
+  "split": "validation",
+  "status": "unassigned",
+  "unique_tasks": 600
+}
