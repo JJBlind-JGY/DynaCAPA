@@ -64,7 +64,7 @@ def main() -> int:
             "run_id": config.run_id,
             "config_path": configured.replace("\\", "/"),
             "config_sha256": sha256_file(config_path),
-            "generations_path": generated.replace("\\", "/"),
+            "generations_path": f"{config.output_dir}/generations.jsonl",
             "generations_sha256": sha256_file(generations_path),
             "summary": summary.model_dump(mode="json"),
         }
