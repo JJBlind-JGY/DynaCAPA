@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -16,6 +17,9 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def test_sft_smoke_config_passes_local_structural_readiness() -> None:
     config = load_training_config(ROOT / "configs/sft/qwen3_0_6b_smoke.yaml")
+    config = config.model_copy(
+        update={"output_dir": f"outputs/readiness-probes/process-{os.getpid()}-sft"}
+    )
 
     report = validate_training_readiness(
         ROOT,
@@ -33,6 +37,18 @@ def test_sft_smoke_config_passes_local_structural_readiness() -> None:
 
 def test_dpo_waits_for_exact_preceding_sft_adapter() -> None:
     config = load_training_config(ROOT / "configs/preference/qwen3_0_6b_smoke.yaml")
+    config = config.model_copy(
+        update={
+            "output_dir": f"outputs/readiness-probes/process-{os.getpid()}-dpo",
+            "model": config.model.model_copy(
+                update={
+                    "initial_adapter_path": (
+                        f"outputs/readiness-probes/process-{os.getpid()}-missing-adapter"
+                    )
+                }
+            ),
+        }
+    )
 
     report = validate_training_readiness(
         ROOT,
