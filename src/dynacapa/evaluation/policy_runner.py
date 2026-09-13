@@ -253,7 +253,10 @@ def execute_policy_evaluation(
         },
         "dependencies": _dependency_versions(),
         "frozen_test_accessed": False,
-        "claim_boundary": "Engineering evaluation of 0.6B eight-step smoke adapters; not Gate B evidence.",
+        "claim_boundary": (
+            "Engineering evaluation of a 0.6B pipeline-smoke model or adapter; "
+            "not Gate B evidence."
+        ),
     }
     manifest_path.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
