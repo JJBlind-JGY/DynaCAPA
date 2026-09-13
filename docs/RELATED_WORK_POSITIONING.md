@@ -16,6 +16,10 @@ The current literature audit used primary arXiv pages and official repositories.
 | ARGUS, arXiv:2605.03378v2 | Context-dependent AgentLure benchmark and an influence-provenance auditor that grounds state-changing actions in benign evidence and task invariants | Runtime context, evidence grounding, pre-execution blocking | D-CAPA must show why benign factual support is insufficient without a separate, dynamic authorization right. |
 | AgentDojo, arXiv:2406.13352v3 | Extensible tool-agent security environment with 97 realistic tasks and 629 security cases across realistic applications | Mail/workspace tasks, indirect prompt injection, security-utility evaluation | Required external evaluation target after the internal semantics pass Gate A. |
 | AgentDyn, arXiv:2602.03117v3 | 60 manually designed open-ended tasks and 560 injection cases across Shopping, GitHub, and Daily Life | Dynamic planning and over-defense under open-ended tasks | Candidate second external evaluation for dynamic utility; not a replacement for exact authorization ground truth. |
+| CaMeL, arXiv:2503.18813 | Extracts trusted control/data flow and enforces capabilities around untrusted values | Capability enforcement and protected execution | A strong system-level baseline for AgentDojo; D-CAPA cannot equate runtime blocking with policy-native learning. |
+| Progent, arXiv:2504.11703 | Programmable privilege-control DSL with deterministic tool-call policy enforcement and LLM-assisted policy generation | Fine-grained least-privilege policies and dynamic policy updates | Contract expressiveness and security-utility comparisons must include a programmable-policy perspective. |
+| Fides, arXiv:2505.23643 | Formal information-flow model, confidentiality/integrity labels, deterministic enforcement, and selective information hiding | Facts, provenance, taint, and hard enforcement | D-CAPA must state which guarantees it does not provide and measure utility rather than presenting weaker blocking as formal IFC. |
+| DRIFT, arXiv:2506.12104 | Secure planner, dynamic validator, and injection isolation; evaluated on AgentDojo and ASB | Dynamic plan checking and runtime-context isolation | Dynamic behavior alone is not novel; D-CAPA's comparison must isolate authorization lifecycle and executable-set semantics. |
 | CVT-RL, arXiv:2606.05263v1 | Policy-conditioned counterfactual contribution with controlled intervention families and compute-matched comparisons | Later VICC counterfactual credit | VICC cannot claim counterfactual credit as a new general idea; it must isolate authorization semantics and field-level intervention value. |
 | Executed-replay audit, arXiv:2608.19760v2 | Audits step credit against policy-conditional executed replay and shows that unmatched optimizer dose can explain apparent differences | Later VICC ground truth and training comparisons | Every VICC comparison must match effective samples, tokens, environment calls, replay count, and optimizer steps. |
 
@@ -25,6 +29,10 @@ Primary links:
 - https://arxiv.org/abs/2605.03378
 - https://arxiv.org/abs/2406.13352
 - https://arxiv.org/abs/2602.03117
+- https://arxiv.org/abs/2503.18813
+- https://arxiv.org/abs/2504.11703
+- https://arxiv.org/abs/2505.23643
+- https://arxiv.org/abs/2506.12104
 - https://arxiv.org/abs/2606.05263
 - https://arxiv.org/abs/2608.19760
 
@@ -67,6 +75,8 @@ Internal performance alone is insufficient for a conference claim. The minimum l
 4. **AgentDojo evaluation:** report task utility, attack success, attacked utility, refusal/false blocking, and execution cost on a declared subset.
 5. **Dynamic external stress:** use AgentDyn or AgentLure if code, license, model access, and fair adaptation are feasible; record exclusions rather than silently selecting easy tasks.
 6. **Cross-domain internal transfer:** Mail training with File/DB evaluation after single-domain semantics are stable.
+
+For the eventual external main table, the implementation order is based on fidelity and available author code rather than name count: first AgentDojo-native methods with runnable official implementations, then one strong programmable-policy/IFC method, then newer graph/causal-audit methods where the released interfaces permit a fair adaptation. A mechanism proxy must never occupy a row labeled as the full original method.
 
 No top-conference submission should rely only on `dynacapa_mail_v0_2` results.
 
