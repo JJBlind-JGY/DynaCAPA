@@ -5,6 +5,8 @@
 - Added the server-resolved Python 3.11 CUDA training lock after verifying
   PyTorch 2.9.1+cu128, CUDA availability, NCCL 2.27.5, and the pinned TRL stack
   on the target three-GPU Linux host.
+- Added a pinned-tokenizer sequence-length audit that refuses output overwrite
+  and fails when any SFT/DPO branch would require context truncation.
 - Added a single fail-closed TRL training entry point with strict SFT/DPO configs, pinned model revision, data-hash verification, frozen-test protection, output non-overwrite, run registration, clean-Git, Linux/GPU/VRAM/BF16, and dependency-lock gates.
 - Added eight-step Qwen3-0.6B LoRA SFT and sigmoid-DPO smoke configs; DPO is dependency-ordered on the exact SFT adapter.
 - Expanded server preflight reporting for PyTorch/CUDA/NCCL/BF16, GPU inventory, VRAM thresholds, and the complete training stack.
