@@ -21,10 +21,17 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", action="append", required=True)
     parser.add_argument("--generations", action="append", required=True)
+    parser.add_argument(
+        "--label",
+        action="append",
+        help="Unique comparison label; defaults to model variant.",
+    )
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
-    if len(args.config) != 3 or len(args.generations) != 3:
-        raise ValueError("exactly three configs and generation files are required")
+    if len(args.config) != len(args.generations) or len(args.config) < 2:
+        raise ValueError("matching config/generation lists with at least two runs are required")
+    if args.label is not None and len(args.label) != len(args.config):
+        raise ValueError("labels must match the number of configs")
 
     root = Path(__file__).resolve().parents[1]
     output_path = _within_root(root, args.output, "comparison output")
@@ -34,7 +41,9 @@ def main() -> int:
     variants = {}
     task_sets = []
     source_hashes = set()
-    for configured, generated in zip(args.config, args.generations, strict=True):
+    for index, (configured, generated) in enumerate(
+        zip(args.config, args.generations, strict=True)
+    ):
         config_path = _within_root(root, configured, "config")
         generations_path = _within_root(root, generated, "generations")
         config = load_evaluation_config(config_path)
@@ -60,7 +69,10 @@ def main() -> int:
         summary, _ = score_generations(generations, records, purpose=config.purpose)
         task_ids = tuple(item.task_id for item in generations)
         task_sets.append(task_ids)
-        variants[config.model.variant] = {
+        label = args.label[index] if args.label is not None else config.model.variant
+        if label in variants:
+            raise ValueError(f"duplicate comparison label: {label}")
+        variants[label] = {
             "run_id": config.run_id,
             "config_path": configured.replace("\\", "/"),
             "config_sha256": sha256_file(config_path),
@@ -69,8 +81,6 @@ def main() -> int:
             "summary": summary.model_dump(mode="json"),
         }
 
-    if set(variants) != {"base", "sft", "dpo"}:
-        raise ValueError("comparison requires exactly base, sft, and dpo")
     if len(source_hashes) != 1 or not all(item == task_sets[0] for item in task_sets[1:]):
         raise ValueError("variants do not use the same ordered validation sample")
 
@@ -78,7 +88,7 @@ def main() -> int:
         variant: payload["summary"]["metrics"] for variant, payload in variants.items()
     }
     comparison = {
-        "artifact_id": "policy_eval_qwen3_0_6b_mail_v0_2_pilot_comparison",
+        "artifact_id": output_path.stem,
         "protocol_version": "policy-eval-v1",
         "status": "completed_engineering_pilot",
         "scorer_git_commit": _git_commit(root),
@@ -90,11 +100,7 @@ def main() -> int:
         "same_ordered_sample": True,
         "frozen_test_accessed": False,
         "variants": variants,
-        "numeric_metric_deltas": {
-            "sft_minus_base": _numeric_deltas(metrics["sft"], metrics["base"]),
-            "dpo_minus_sft": _numeric_deltas(metrics["dpo"], metrics["sft"]),
-            "dpo_minus_base": _numeric_deltas(metrics["dpo"], metrics["base"]),
-        },
+        "numeric_metric_deltas": _pairwise_deltas(metrics),
         "claim_boundary": (
             "Sixty-case validation engineering pilot for 0.6B eight-step adapters; "
             "not population-weighted and not Gate B evidence."
@@ -118,6 +124,19 @@ def _numeric_deltas(
             else float(minuend[key]) - float(subtrahend[key])
         )
         for key in sorted(set(minuend) & set(subtrahend))
+    }
+
+
+def _pairwise_deltas(
+    metrics: dict[str, dict[str, float | None]],
+) -> dict[str, dict[str, float | None]]:
+    labels = list(metrics)
+    return {
+        f"{labels[later]}_minus_{labels[earlier]}": _numeric_deltas(
+            metrics[labels[later]], metrics[labels[earlier]]
+        )
+        for later in range(1, len(labels))
+        for earlier in range(later)
     }
 
 

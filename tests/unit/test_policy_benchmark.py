@@ -139,3 +139,26 @@ def test_scorer_rejects_tampered_target_label() -> None:
 
     with pytest.raises(ValueError, match="target mode mismatch"):
         score_generations(tuple(generations), records)
+
+
+def test_schema_invalid_declared_mode_receives_no_mode_credit() -> None:
+    records = _validation_records()
+    compilation = compile_training_examples(records)
+    execute_example = next(
+        example for example in compilation.sft if example.target_mode.value == "execute"
+    )
+    outputs = {
+        example.task_id: example.completion[0].content for example in compilation.sft
+    }
+    import json
+
+    invalid = json.loads(outputs[execute_example.task_id])
+    invalid.pop("args")
+    outputs[execute_example.task_id] = json.dumps(invalid)
+
+    summary, scores = score_generations(_generations(records, outputs=outputs), records)
+    score = next(item for item in scores if item.task_id == execute_example.task_id)
+
+    assert score.schema_valid is False
+    assert score.predicted_mode == "__invalid__"
+    assert summary.metrics["mode_accuracy"] == 59 / 60
