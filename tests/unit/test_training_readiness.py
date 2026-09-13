@@ -125,3 +125,12 @@ def test_generated_jsonl_matches_trl_conversational_shapes() -> None:
     assert [message["role"] for message in dpo["prompt"]] == ["system", "user"]
     assert [message["role"] for message in dpo["chosen"]] == ["assistant"]
     assert [message["role"] for message in dpo["rejected"]] == ["assistant"]
+
+
+def test_mixed_dpo_loss_is_explicit_and_aligned() -> None:
+    config = load_training_config(
+        ROOT
+        / "configs/preference/qwen3_0_6b_balanced64_contrastive32_sftloss.yaml"
+    )
+    assert config.trainer.loss_type == ("sigmoid", "sft")
+    assert config.trainer.loss_weights == (1.0, 1.0)

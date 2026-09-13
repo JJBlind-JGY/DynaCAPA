@@ -116,9 +116,16 @@ def execute_training(root: Path, config: TrainingRunConfig, config_path: Path) -
                 is_trainable=True,
             )
             dpo_common = {key: value for key, value in common.items() if key != "model_init_kwargs"}
+            loss_type = config.trainer.loss_type
+            if isinstance(loss_type, tuple):
+                loss_type = list(loss_type)
+            loss_weights = config.trainer.loss_weights
+            if loss_weights is not None:
+                loss_weights = list(loss_weights)
             args = DPOConfig(
                 **dpo_common,
-                loss_type=config.trainer.loss_type,
+                loss_type=loss_type,
+                loss_weights=loss_weights,
                 beta=config.trainer.beta,
             )
             trainer = DPOTrainer(

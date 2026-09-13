@@ -48,7 +48,12 @@ class TrainerConfig(StrictModel):
     tf32: bool = True
     packing: bool = False
     completion_only_loss: bool = True
-    loss_type: Literal["sigmoid"] | None = None
+    loss_type: (
+        Literal["sigmoid"]
+        | tuple[Literal["sigmoid", "sft"], ...]
+        | None
+    ) = None
+    loss_weights: tuple[float, ...] | None = None
     beta: float | None = Field(default=None, gt=0.0)
 
 
@@ -81,8 +86,12 @@ class TrainingRunConfig(StrictModel):
                 raise ValueError("SFT must start from the pinned base model")
             if self.lora is None:
                 raise ValueError("SFT requires an explicit LoRA configuration")
-            if self.trainer.loss_type is not None or self.trainer.beta is not None:
-                raise ValueError("SFT cannot define DPO loss_type or beta")
+            if (
+                self.trainer.loss_type is not None
+                or self.trainer.loss_weights is not None
+                or self.trainer.beta is not None
+            ):
+                raise ValueError("SFT cannot define DPO loss_type, loss_weights, or beta")
             if not self.data.train_key.endswith("_sft"):
                 raise ValueError("SFT train_key must select an SFT artifact")
         else:
@@ -90,8 +99,21 @@ class TrainingRunConfig(StrictModel):
                 raise ValueError("DPO must name the preceding SFT adapter path")
             if self.lora is not None:
                 raise ValueError("DPO continues the SFT adapter; do not create a second LoRA")
-            if self.trainer.loss_type != "sigmoid" or self.trainer.beta is None:
-                raise ValueError("DPO baseline must explicitly use sigmoid loss and beta")
+            loss_types = (
+                (self.trainer.loss_type,)
+                if isinstance(self.trainer.loss_type, str)
+                else self.trainer.loss_type
+            )
+            if not loss_types or "sigmoid" not in loss_types or self.trainer.beta is None:
+                raise ValueError("DPO must explicitly include sigmoid loss and beta")
+            if len(loss_types) != len(set(loss_types)):
+                raise ValueError("DPO loss_type entries must be unique")
+            if self.trainer.loss_weights is not None and len(
+                self.trainer.loss_weights
+            ) != len(loss_types):
+                raise ValueError("DPO loss_weights must align with loss_type")
+            if "sft" in loss_types and self.trainer.loss_weights is None:
+                raise ValueError("mixed sigmoid+sft DPO requires explicit loss_weights")
             if not self.data.train_key.endswith("_dpo"):
                 raise ValueError("DPO train_key must select a DPO artifact")
         if self.stage not in self.data.validation_key:
