@@ -7,6 +7,8 @@
   on the target three-GPU Linux host.
 - Added a pinned-tokenizer sequence-length audit that refuses output overwrite
   and fails when any SFT/DPO branch would require context truncation.
+- Recorded the Qwen3-0.6B SFT audit: all 5,400 train/validation examples fit
+  without truncation, with maxima of 1,079 and 1,074 tokens respectively.
 - Added a single fail-closed TRL training entry point with strict SFT/DPO configs, pinned model revision, data-hash verification, frozen-test protection, output non-overwrite, run registration, clean-Git, Linux/GPU/VRAM/BF16, and dependency-lock gates.
 - Added eight-step Qwen3-0.6B LoRA SFT and sigmoid-DPO smoke configs; DPO is dependency-ordered on the exact SFT adapter.
 - Expanded server preflight reporting for PyTorch/CUDA/NCCL/BF16, GPU inventory, VRAM thresholds, and the complete training stack.
