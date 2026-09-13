@@ -23,3 +23,22 @@ The earlier `dynacapa_mail_v0` pilot is retained for provenance but is not eligi
 ## Availability status
 
 The dataset is currently an internal pre-release research artifact. No public repository, persistent identifier, creator list, publication year, or licence has been assigned; the manifest records these as unresolved rather than inventing them. Before paper submission, the release candidate must receive a repository record, licence decision, README, citation metadata, and paper/code links.
+
+## Cold-start derivatives
+
+`dynacapa_mail_training_v0_2_minimal_v1` is a deterministic derivative of the train
+and validation splits. Each source task yields exactly one conversational SFT
+prompt-completion example and one DPO preference pair. Prompts expose the separated
+authorization rights, facts, executable set, dynamic tool contracts, provenance-
+labelled context, and current confirmation references. They exclude hidden facts,
+legal/illegal action labels, acceptable modes, and other oracle-only fields.
+
+The chosen response follows a minimum-intervention rule: execute a verified legal
+action, ask for missing confirmation, otherwise block. The rejected response is a
+well-formed execution proposal that the deterministic verifier rejects in the same
+state. Source and output hashes are recorded in
+`data/manifests/dynacapa_mail_training_v0_2_minimal_v1.manifest.json`.
+
+This derivative is restricted to trainer/tokenizer/data-loader smoke tests. It is
+not a complete six-mode supervision set and is not sufficient by itself for a Gate
+B or paper-result claim. See ADR-0002 and ADR-0003.

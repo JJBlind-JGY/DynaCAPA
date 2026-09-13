@@ -2,6 +2,10 @@
 
 ## 2026-09-13
 
+- Recorded the qualitative human dataset acceptance without inventing row-level agreement or recall statistics; released data-pipeline smoke work while keeping formal Gate A closed.
+- Added a deterministic, frozen-test-sealed compiler producing one TRL-style SFT example and one verifier-grounded DPO pair per Mail train/validation task.
+- Added oracle-field leakage checks, source-hash verification, immutable output manifests, and explicit three-mode smoke-only eligibility.
+- Added ADRs for the human-review evidence boundary and minimum-intervention cold-start targets.
 - Added transparent AuthGraph-style and ARGUS-style structured proxy baselines without presenting them as full paper reproductions.
 - Added controlled parameter-source/value and task-object-invariant probes to distinguish provenance, clean authorization plans, benign evidence, and dynamic authorization semantics.
 - Fixed the Proof Checker so a trusted source must support the actual critical-argument value rather than merely having an allowed source type.

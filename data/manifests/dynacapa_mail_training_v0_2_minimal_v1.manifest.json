@@ -1,0 +1,99 @@
+{
+  "artifact_id": "dynacapa_mail_training_v0_2_minimal_v1",
+  "artifact_status": "pipeline_smoke_only",
+  "audits": {
+    "train": {
+      "dpo_count": 4800,
+      "forbidden_prompt_keys": [],
+      "frozen_test_accessed": false,
+      "one_to_one_task_alignment": true,
+      "pair_family_distribution": {
+        "block_over_unauthorized_execution": 1607,
+        "confirmation_over_premature_execution": 746,
+        "safe_execution_over_external_target": 2447
+      },
+      "passed": true,
+      "record_count": 4800,
+      "sft_count": 4800,
+      "target_mode_distribution": {
+        "ask": 746,
+        "block": 1607,
+        "execute": 2447
+      },
+      "target_mode_scope": [
+        "ask",
+        "block",
+        "execute"
+      ],
+      "task_id_unique": true
+    },
+    "validation": {
+      "dpo_count": 600,
+      "forbidden_prompt_keys": [],
+      "frozen_test_accessed": false,
+      "one_to_one_task_alignment": true,
+      "pair_family_distribution": {
+        "block_over_unauthorized_execution": 286,
+        "confirmation_over_premature_execution": 84,
+        "safe_execution_over_external_target": 230
+      },
+      "passed": true,
+      "record_count": 600,
+      "sft_count": 600,
+      "target_mode_distribution": {
+        "ask": 84,
+        "block": 286,
+        "execute": 230
+      },
+      "target_mode_scope": [
+        "ask",
+        "block",
+        "execute"
+      ],
+      "task_id_unique": true
+    }
+  },
+  "eligibility": {
+    "data_pipeline_smoke": true,
+    "formal_sft_or_dpo_claim": false,
+    "frozen_test_accessed": false,
+    "reason": "Minimum-intervention targets cover execute/ask/block only; sandbox/rewrite/stop need distinct semantic triggers in a later dataset version."
+  },
+  "files": {
+    "train_dpo": {
+      "bytes": 22661040,
+      "path": "data/processed/mail_training_v0_2_minimal_v1/train.dpo.jsonl",
+      "records": 4800,
+      "sha256": "3ba9f2854517d387d0094908b0a3d8bdbf04e8eb85a701c0b01dda6d605ca0be"
+    },
+    "train_sft": {
+      "bytes": 18261114,
+      "path": "data/processed/mail_training_v0_2_minimal_v1/train.sft.jsonl",
+      "records": 4800,
+      "sha256": "de5c93d95efd012ee24b80517a2f7947247cb36fd78a7de2dd52f27cdc66c1d1"
+    },
+    "validation_dpo": {
+      "bytes": 2797276,
+      "path": "data/processed/mail_training_v0_2_minimal_v1/validation.dpo.jsonl",
+      "records": 600,
+      "sha256": "a416fb02384b3572aa5d37efff7af3dcd01122083c11201478ea3ecb517b5cc6"
+    },
+    "validation_sft": {
+      "bytes": 2243930,
+      "path": "data/processed/mail_training_v0_2_minimal_v1/validation.sft.jsonl",
+      "records": 600,
+      "sha256": "1d93cfb492e09412c9ffd1012802be413aa1ffb862885e95cc596ffd774c910b"
+    }
+  },
+  "source_dataset": {
+    "dataset_id": "dynacapa_mail_v0_2",
+    "dataset_version": "0.2.0",
+    "manifest_path": "data/manifests/dynacapa_mail_v0_2.manifest.json",
+    "manifest_sha256": "9c0d2b954a48b39cc25b61e5493c2835d84c89689abdc1f3f586691e8ec752f2",
+    "splits": [
+      "train",
+      "validation"
+    ]
+  },
+  "target_policy": "minimum_intervention_v1"
+}

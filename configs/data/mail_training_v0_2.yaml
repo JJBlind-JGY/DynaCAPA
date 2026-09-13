@@ -1,0 +1,8 @@
+dataset_manifest: data/manifests/dynacapa_mail_v0_2.manifest.json
+source_splits:
+  - train
+  - validation
+output_dir: data/processed/mail_training_v0_2_minimal_v1
+manifest_path: data/manifests/dynacapa_mail_training_v0_2_minimal_v1.manifest.json
+target_policy: minimum_intervention_v1
+artifact_status: pipeline_smoke_only

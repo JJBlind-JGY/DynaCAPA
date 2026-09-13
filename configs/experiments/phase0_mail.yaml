@@ -7,4 +7,4 @@ experiment:
   verifier_version: "0.1.0"
   gate: A
   training_enabled: false
-
+  data_pipeline_smoke_enabled: true
