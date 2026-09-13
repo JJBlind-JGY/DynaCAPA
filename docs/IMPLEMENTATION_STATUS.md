@@ -4,7 +4,7 @@ Updated: 2026-09-13
 
 | Master-plan task | Status | Evidence |
 |---|---|---|
-| Task 001 Repository Skeleton | Complete for Phase 0 | Private Git repository, package/config/test layout, Python 3.11 environment, direct and transitive dependency locks; 79 tests pass on Windows |
+| Task 001 Repository Skeleton | Complete for Phase 0 | Private Git repository, package/config/test layout, Python 3.11 environment, direct and transitive dependency locks; 79 tests pass on Windows and Linux |
 | Task 002 Core Schemas | Complete v0.1 | Versioned strict schemas and discriminated `PolicyOutput`; candidate/executed fields are deep-copied at the runtime boundary |
 | Task 003 Sandbox Base API | Complete v0.1 | `reset`, `step`, `snapshot`, `restore`, `clone`, and `state_hash` abstract interface |
 | Task 004 File Env | Deferred | Conditional cross-domain extension; Mail is the mandated first vertical slice |
