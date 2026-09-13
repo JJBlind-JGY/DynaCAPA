@@ -4,7 +4,7 @@ Updated: 2026-09-13
 
 | Master-plan task | Status | Evidence |
 |---|---|---|
-| Task 001 Repository Skeleton | Complete for Phase 0 | Private Git repository, package/config/test layout, Python 3.11 environment, direct and transitive dependency locks; 79 tests pass on Windows and Linux |
+| Task 001 Repository Skeleton | Complete for Phase 0 | Private Git repository, package/config/test layout, Python 3.11 environment, direct and transitive dependency locks; 82 tests pass on Windows and 79 on Linux before the latest pilot sync |
 | Task 002 Core Schemas | Complete v0.1 | Versioned strict schemas and discriminated `PolicyOutput`; candidate/executed fields are deep-copied at the runtime boundary |
 | Task 003 Sandbox Base API | Complete v0.1 | `reset`, `step`, `snapshot`, `restore`, `clone`, and `state_hash` abstract interface |
 | Task 004 File Env | Deferred | Conditional cross-domain extension; Mail is the mandated first vertical slice |
@@ -23,6 +23,7 @@ Updated: 2026-09-13
 | Phase 2 TRL harness | 0.6B SFT/DPO engineering chain complete | Target-server lock; strict configuration; pinned model revision; single guarded entry point; SFT-before-DPO dependency; data/manifest checks; Linux/GPU/BF16/dependency-lock/run-registration/clean-Git gates; token audits; run manifests and adapter hashes; native mixed sigmoid+chosen-SFT loss is validated and pre-registered |
 | Phase 2 unified policy evaluator | Complete v1 for calibration | Retained raw generations; exact JSON and discriminated-union parsing; explicit-field audit; mode F1; PVR/UPR/FBR/Shield Rate separation; fail-closed malformed-output metric; deterministic group-balanced selection; label/fingerprint/hash checks; Base/SFT/DPO same-sample comparison |
 | Phase 2 failure analysis and v0.3 mode oracle | Initial implementation complete | Read-only retained-output analyzer keeps malformed-output intent strictly diagnostic; six mutually exclusive observable mode triggers reject ambiguous generator states; ADR-0006 pre-registers hierarchical mode/action/proof curriculum and the next matched-dose comparison |
+| Mail v0.3 six-mode semantic pilot | Generated for blinded review; not released for training | 60 train-source cases with 10 per mode and disjoint source tasks; review items and answers are separate; unique-mode oracle passes; validation and frozen test are untouched; manifest fixes hashes and `training_eligible: false` pending trigger paraphrases, shortcut audit, and human review |
 
 Qwen3-0.6B completed the original eight-step chain, SFT64/DPO32 dose calibration,
 balanced SFT64, bidirectional contrastive DPO32, and one pre-registered

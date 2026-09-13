@@ -67,3 +67,10 @@ dominating omissions; only three hit the token cap. ADR-0006 and the tested v0.3
 mode oracle therefore separate semantic mode selection from action binding and
 proof completion. This is implementation progress, not a v0.3 data release or a
 Gate B result.
+
+A 60-case v0.3 semantic-review pilot now instantiates ten examples per mode from
+60 disjoint v0.2 training records. Review items and answer keys are separated,
+the mode oracle resolves every case uniquely, and neither validation nor frozen
+test was read. The pilot is explicitly not training-eligible: its new trigger
+wording still needs paraphrase diversity, a lexical shortcut audit, and human
+review before a versioned dataset release.

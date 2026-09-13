@@ -1,0 +1,32 @@
+{
+  "artifact_id": "dynacapa_mail_v0_3_six_mode_semantic_pilot",
+  "artifacts": {
+    "answer_key": {
+      "path": "data/review/mail_v0_3_six_mode_semantic_pilot/answer_key.jsonl",
+      "records": 60,
+      "sha256": "6e42b117d18e3e9708d0ff6679713143d6798001915422b8cd7d0ae94aa3e0b1"
+    },
+    "audit": {
+      "path": "data/review/mail_v0_3_six_mode_semantic_pilot/audit.json",
+      "records": 1,
+      "sha256": "886cc9687f7bf935bab3622042e7252394ed97d1d9f98182941d5d452cf2720e"
+    },
+    "review_items": {
+      "path": "data/review/mail_v0_3_six_mode_semantic_pilot/review_items.jsonl",
+      "records": 60,
+      "sha256": "bfff7decc22c067473d33720cd462972d96bf98f4e79bf18edbc190f815b07b6"
+    }
+  },
+  "claim_boundary": "Blinded semantic review pilot; not a released dataset or model experiment.",
+  "count_per_mode": 10,
+  "frozen_test_accessed": false,
+  "seed": 20260913,
+  "source": {
+    "path": "data/processed/mail_v0_2/train.jsonl",
+    "sha256": "f24537aae0c0e3e85352700e762dd1b4652024593c1ff7236d3fb3b4df27a99b",
+    "split": "train"
+  },
+  "status": "semantic_review_only",
+  "training_eligible": false,
+  "validation_accessed": false
+}
