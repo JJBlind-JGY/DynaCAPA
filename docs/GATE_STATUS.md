@@ -73,4 +73,5 @@ A 60-case v0.3 semantic-review pilot now instantiates ten examples per mode from
 the mode oracle resolves every case uniquely, and neither validation nor frozen
 test was read. The pilot is explicitly not training-eligible: its new trigger
 wording still needs paraphrase diversity, a lexical shortcut audit, and human
-review before a versioned dataset release.
+review before a versioned dataset release. Independent Windows and Linux builds
+produced identical review-item, answer-key, and audit hashes.
