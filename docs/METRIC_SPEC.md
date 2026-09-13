@@ -44,3 +44,5 @@ inflate field completeness.
 The 60-case engineering pilot is balanced at ten cases per validation diagnostic
 group and is not population-weighted.  It is used to validate the evaluation
 pipeline for the 0.6B eight-step smoke adapters, not to make a Gate B claim.
+When no certificate-bearing candidate exists, PVR is reported as undefined
+(`null`) rather than as zero.

@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections import Counter
 from pathlib import Path
 
+import pytest
 import yaml
 
 from dynacapa.data.generators.mail_v0 import MailDatasetConfig, generate_mail_dataset
@@ -129,3 +130,12 @@ def test_stratified_selection_is_deterministic_and_group_balanced() -> None:
     }
     assert max(group_counts.values()) - min(group_counts.values()) <= 1
     assert set(mode_counts) == {"ask", "block", "execute"}
+
+
+def test_scorer_rejects_tampered_target_label() -> None:
+    records = _validation_records()
+    generations = list(_generations(records))
+    generations[0] = generations[0].model_copy(update={"target_mode": "stop"})
+
+    with pytest.raises(ValueError, match="target mode mismatch"):
+        score_generations(tuple(generations), records)
