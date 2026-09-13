@@ -8,9 +8,18 @@
 
 ## Dependency layers
 
-`environment.yml` and `pyproject.toml` lock the Phase 0 CPU environment. GPU dependencies will be placed in a separate Linux lock after the target server passes preflight, because CUDA-dependent packages must be matched to the server driver rather than guessed on Windows.
+`environment.yml` and `pyproject.toml` define the Phase 0 CPU environment. The
+target Linux server was inspected before resolving the GPU layer: its NVIDIA
+580.178.04 driver successfully loaded the PyTorch 2.9.1 CUDA 12.8 wheel on three
+RTX 4090 devices. The resolved Python 3.11 training stack is fully pinned in the
+server lock rather than inferred from a Windows environment.
 
 The server-specific lock path is `requirements/training-linux-py311.lock.txt`.
+Its initial audited SHA-256 is
+`2012abdb33a58080c4ea547fd385f97b6e5c79408230758915e4e1feb227240b`.
+The lock uses the official PyTorch CUDA 12.8 package index and pins the primary
+training packages to PyTorch 2.9.1+cu128, Transformers 4.57.6, Datasets 4.8.5,
+TRL 1.13.0, PEFT 0.20.0, and Accelerate 1.15.0.
 Training configurations must reference it, and the guarded launcher requires both
 the lock and a clean Git worktree. The first model revisions are pinned in their run
 configs rather than resolving mutable `main` branches at launch time.
