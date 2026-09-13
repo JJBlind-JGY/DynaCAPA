@@ -1,0 +1,22 @@
+evaluation_id: verifier_validation_v0_2_neighbors
+dataset_config: configs/data/mail_v0_2.yaml
+split: validation
+methods:
+  - known_tool_allow
+  - provenance_only
+  - static_authorization
+  - authgraph_style_proxy
+  - argus_style_proxy
+  - dynacapa_full
+method_scope:
+  authgraph_style_proxy: structured clean-plan and parameter-source alignment only
+  argus_style_proxy: structured benign-evidence grounding and task invariants only
+  warning: proxies are mechanism-level adaptations, not full paper reproductions
+metrics:
+  - legal_acceptance_rate
+  - violation_recall
+  - severe_violation_recall
+  - macro_f1
+  - reason_code_recall
+frozen_test_access: sealed
+output: experiments/phase1/verifier_validation_v0_2_neighbors_probes.json

@@ -151,9 +151,16 @@ class ProofChecker:
                     IssuerType.AUTHENTICATED_USER: SourceType.AUTHENTICATED_USER,
                     IssuerType.TRUSTED_SYSTEM: SourceType.TRUSTED_SYSTEM,
                 }[event.issuer_type]
+                if argument == "recipient" and not _covers(
+                    event.target_scope,
+                    (str(candidate.args[argument]),),
+                ):
+                    return False
             fact = state.fact_by_id(source_ref)
             if fact is not None and fact.is_fresh(at):
                 source_type = fact.source_type
+                if fact.key != argument or fact.value != candidate.args[argument]:
+                    return False
             if source_type not in rule.allowed_source_types:
                 return False
         return True

@@ -1,6 +1,6 @@
 # Research gate status
 
-Updated: 2026-09-12
+Updated: 2026-09-13
 
 ## Gate A — not yet passed
 
@@ -12,5 +12,6 @@ Updated: 2026-09-12
 | Semantic extraction macro-F1 >= 0.90 | Blinded validation review pack prepared: 600 primary labels plus 60 stratified independent secondary labels | Awaiting human annotation; no score claimed |
 | Severe-violation recall >= 0.98 | Same review pack records severity and reason labels; adjudication key is stored separately | Awaiting human annotation; no score claimed |
 | Frozen split isolation | `dynacapa_mail_v0_2`: template, authorization pattern, attack expression, source combination, and Schema version are disjoint from training; all 6,600 semantic fingerprints are unique | Initial leakage audit passes |
+| Neighboring-method discrimination | Transparent AuthGraph-style and ARGUS-style structured proxies plus two controlled mechanism probes run on validation; the active diagnostic report has 1,557 candidates | Initial proxy diagnostic passes; full method adaptation and external evaluation remain |
 
 Because the full gate is not passed, `configs/experiments/phase0_mail.yaml` keeps `training_enabled: false`. Passing infrastructure tests must not be reported as passing Gate A.

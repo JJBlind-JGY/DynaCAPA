@@ -28,6 +28,14 @@ def main() -> int:
     parser.add_argument("--split", choices=("train", "validation", "frozen_test"), default="validation")
     parser.add_argument("--unlock-frozen", action="store_true")
     parser.add_argument(
+        "--include-neighboring-proxies",
+        action="store_true",
+        help=(
+            "include transparent structured proxies for AuthGraph and ARGUS; "
+            "these are not full reproductions of the original systems"
+        ),
+    )
+    parser.add_argument(
         "--output", default="experiments/phase1/verifier_validation_v0_2_ci.json"
     )
     args = parser.parse_args()
@@ -43,7 +51,10 @@ def main() -> int:
         yaml.safe_load(config_path.read_text(encoding="utf-8"))
     )
     records = generate_mail_dataset(config)[args.split]
-    report = evaluate_verifier_benchmarks(records)
+    report = evaluate_verifier_benchmarks(
+        records,
+        include_neighboring_proxies=args.include_neighboring_proxies,
+    )
     content = json.dumps(report.model_dump(mode="json"), ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     _write_immutable(output_path, content)
     print(content, end="")

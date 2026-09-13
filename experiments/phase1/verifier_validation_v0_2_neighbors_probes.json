@@ -1,0 +1,245 @@
+{
+  "baselines": {
+    "argus_style_proxy": {
+      "accuracy": 0.7109826589595376,
+      "category_recall": {
+        "confirmation": 0.0,
+        "expired_authorization": 0.0,
+        "external_target": 1.0,
+        "fact_without_authorization": 0.45454545454545453,
+        "future_authorization": 0.0,
+        "parameter_source_mismatch": 1.0,
+        "revocation": 0.0,
+        "schema_drift": 0.0,
+        "task_invariant_mismatch": 1.0
+      },
+      "false_negative": 450,
+      "false_positive": 0,
+      "legal_acceptance_ci95": [
+        0.9835723791663494,
+        1.0
+      ],
+      "legal_acceptance_rate": 1.0,
+      "macro_f1": 0.6506601384096846,
+      "precision": 1.0,
+      "reason_code_recall": null,
+      "severe_violation_recall": 0.6742627345844504,
+      "severe_violation_recall_ci95": [
+        0.6398143493830991,
+        0.706925614033851
+      ],
+      "specificity": 1.0,
+      "true_negative": 230,
+      "true_positive": 877,
+      "violation_recall": 0.6608892238131123,
+      "violation_recall_ci95": [
+        0.6349862635672391,
+        0.6858633742088337
+      ]
+    },
+    "authgraph_style_proxy": {
+      "accuracy": 0.5786769428387926,
+      "category_recall": {
+        "confirmation": 0.0,
+        "expired_authorization": 0.0,
+        "external_target": 1.0,
+        "fact_without_authorization": 1.0,
+        "future_authorization": 0.0,
+        "parameter_source_mismatch": 1.0,
+        "revocation": 0.0,
+        "schema_drift": 0.0,
+        "task_invariant_mismatch": 0.0
+      },
+      "false_negative": 656,
+      "false_positive": 0,
+      "legal_acceptance_ci95": [
+        0.9835723791663494,
+        1.0
+      ],
+      "legal_acceptance_rate": 1.0,
+      "macro_f1": 0.5419290257999936,
+      "precision": 1.0,
+      "reason_code_recall": null,
+      "severe_violation_recall": 0.5402144772117963,
+      "severe_violation_recall_ci95": [
+        0.5043361365016157,
+        0.5756807781330651
+      ],
+      "specificity": 1.0,
+      "true_negative": 230,
+      "true_positive": 671,
+      "violation_recall": 0.5056518462697814,
+      "violation_recall_ci95": [
+        0.4787742174421849,
+        0.5324968471166934
+      ]
+    },
+    "dynacapa_full": {
+      "accuracy": 1.0,
+      "category_recall": {
+        "confirmation": 1.0,
+        "expired_authorization": 1.0,
+        "external_target": 1.0,
+        "fact_without_authorization": 1.0,
+        "future_authorization": 1.0,
+        "parameter_source_mismatch": 1.0,
+        "revocation": 1.0,
+        "schema_drift": 1.0,
+        "task_invariant_mismatch": 1.0
+      },
+      "false_negative": 0,
+      "false_positive": 0,
+      "legal_acceptance_ci95": [
+        0.9835723791663494,
+        1.0
+      ],
+      "legal_acceptance_rate": 1.0,
+      "macro_f1": 1.0,
+      "precision": 1.0,
+      "reason_code_recall": 1.0,
+      "severe_violation_recall": 1.0,
+      "severe_violation_recall_ci95": [
+        0.9948769719578645,
+        1.0
+      ],
+      "specificity": 1.0,
+      "true_negative": 230,
+      "true_positive": 1327,
+      "violation_recall": 1.0,
+      "violation_recall_ci95": [
+        0.997113511308779,
+        1.0
+      ]
+    },
+    "known_tool_allow": {
+      "accuracy": 0.14771997430956968,
+      "category_recall": {
+        "confirmation": 0.0,
+        "expired_authorization": 0.0,
+        "external_target": 0.0,
+        "fact_without_authorization": 0.0,
+        "future_authorization": 0.0,
+        "parameter_source_mismatch": 0.0,
+        "revocation": 0.0,
+        "schema_drift": 0.0,
+        "task_invariant_mismatch": 0.0
+      },
+      "false_negative": 1327,
+      "false_positive": 0,
+      "legal_acceptance_ci95": [
+        0.9835723791663494,
+        1.0
+      ],
+      "legal_acceptance_rate": 1.0,
+      "macro_f1": 0.12870733072188026,
+      "precision": 0.0,
+      "reason_code_recall": null,
+      "severe_violation_recall": 0.0,
+      "severe_violation_recall_ci95": [
+        0.0,
+        0.00512302804213539
+      ],
+      "specificity": 1.0,
+      "true_negative": 230,
+      "true_positive": 0,
+      "violation_recall": 0.0,
+      "violation_recall_ci95": [
+        0.0,
+        0.0028864886912211003
+      ]
+    },
+    "provenance_only": {
+      "accuracy": 0.5459216441875402,
+      "category_recall": {
+        "confirmation": 0.0,
+        "expired_authorization": 0.0,
+        "external_target": 1.0,
+        "fact_without_authorization": 0.45454545454545453,
+        "future_authorization": 0.0,
+        "parameter_source_mismatch": 0.0,
+        "revocation": 0.0,
+        "schema_drift": 0.0,
+        "task_invariant_mismatch": 0.0
+      },
+      "false_negative": 707,
+      "false_positive": 0,
+      "legal_acceptance_ci95": [
+        0.9835723791663494,
+        1.0
+      ],
+      "legal_acceptance_rate": 1.0,
+      "macro_f1": 0.5155251702243119,
+      "precision": 1.0,
+      "reason_code_recall": null,
+      "severe_violation_recall": 0.5067024128686327,
+      "severe_violation_recall_ci95": [
+        0.47088360960147396,
+        0.5424525428376397
+      ],
+      "specificity": 1.0,
+      "true_negative": 230,
+      "true_positive": 620,
+      "violation_recall": 0.46721929163526754,
+      "violation_recall_ci95": [
+        0.4405085144826397,
+        0.4941193110758654
+      ]
+    },
+    "static_authorization": {
+      "accuracy": 0.5613359023763648,
+      "category_recall": {
+        "confirmation": 0.0,
+        "expired_authorization": 0.0,
+        "external_target": 1.0,
+        "fact_without_authorization": 1.0,
+        "future_authorization": 0.0,
+        "parameter_source_mismatch": 0.0,
+        "revocation": 0.0,
+        "schema_drift": 0.0,
+        "task_invariant_mismatch": 0.0
+      },
+      "false_negative": 683,
+      "false_positive": 0,
+      "legal_acceptance_ci95": [
+        0.9835723791663494,
+        1.0
+      ],
+      "legal_acceptance_rate": 1.0,
+      "macro_f1": 0.5279625434948486,
+      "precision": 1.0,
+      "reason_code_recall": null,
+      "severe_violation_recall": 0.5241286863270778,
+      "severe_violation_recall_ci95": [
+        0.4882588900234196,
+        0.5597512587573888
+      ],
+      "specificity": 1.0,
+      "true_negative": 230,
+      "true_positive": 644,
+      "violation_recall": 0.4853051996985682,
+      "violation_recall_ci95": [
+        0.45849616039977775,
+        0.5121990717471383
+      ]
+    }
+  },
+  "case_count": 1557,
+  "category_counts": {
+    "confirmation": 84,
+    "expired_authorization": 89,
+    "external_target": 600,
+    "fact_without_authorization": 44,
+    "future_authorization": 56,
+    "legal": 230,
+    "parameter_source_mismatch": 27,
+    "revocation": 97,
+    "schema_drift": 100,
+    "task_invariant_mismatch": 230
+  },
+  "dataset_id": "dynacapa_mail_v0_2",
+  "dataset_version": "0.2.0",
+  "full_verifier_failures": [],
+  "severe_case_count": 746,
+  "split": "validation",
+  "task_count": 600
+}

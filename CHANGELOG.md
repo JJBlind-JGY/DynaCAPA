@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-13
+
+- Added transparent AuthGraph-style and ARGUS-style structured proxy baselines without presenting them as full paper reproductions.
+- Added controlled parameter-source/value and task-object-invariant probes to distinguish provenance, clean authorization plans, benign evidence, and dynamic authorization semantics.
+- Fixed the Proof Checker so a trusted source must support the actual critical-argument value rather than merely having an allowed source type.
+- Added a literature-positioning and external-validity plan covering AgentDojo, AgentDyn, AuthGraph, ARGUS, CVT-RL, and the executed-replay credit audit.
+
 ## 0.1.0 - 2026-09-12
 
 - Initialized the Phase 0 repository.
