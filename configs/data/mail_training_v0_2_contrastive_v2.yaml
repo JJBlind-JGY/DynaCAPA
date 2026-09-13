@@ -1,0 +1,10 @@
+dataset_manifest: data/manifests/dynacapa_mail_v0_2.manifest.json
+source_splits:
+  - train
+  - validation
+output_dir: data/processed/mail_training_v0_2_contrastive_v2
+manifest_path: data/manifests/dynacapa_mail_training_v0_2_contrastive_v2.manifest.json
+target_policy: minimum_intervention_contrastive_v2
+artifact_status: mechanism_diagnostic_only
+balance_train_modes: true
+selection_seed: 20260913

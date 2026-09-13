@@ -1,0 +1,133 @@
+{
+  "artifact_id": "dynacapa_mail_training_v0_2_contrastive_v2",
+  "artifact_status": "mechanism_diagnostic_only",
+  "audits": {
+    "train": {
+      "complete_task_alignment": true,
+      "dpo_count": 4476,
+      "forbidden_prompt_keys": [],
+      "frozen_test_accessed": false,
+      "mode_balanced_by_downsampling": true,
+      "one_to_one_task_alignment": false,
+      "pair_family_distribution": {
+        "block_over_unauthorized_execution": 746,
+        "block_over_unresolvable_ask": 746,
+        "confirmation_over_premature_execution": 746,
+        "confirmation_over_unnecessary_block": 746,
+        "safe_execution_over_external_target": 746,
+        "safe_execution_over_unnecessary_block": 746
+      },
+      "pairs_per_task_distribution": {
+        "2": 2238
+      },
+      "passed": true,
+      "record_count": 2238,
+      "selected_task_ids_sha256": "64cc56f5f84fb8f7edaaed7ace254531cff9b5e1596bc73c1962db26637addf8",
+      "selection_seed": 20260913,
+      "sft_count": 2238,
+      "source_record_count": 4800,
+      "source_target_mode_distribution": {
+        "ask": 746,
+        "block": 1607,
+        "execute": 2447
+      },
+      "target_mode_distribution": {
+        "ask": 746,
+        "block": 746,
+        "execute": 746
+      },
+      "target_mode_scope": [
+        "ask",
+        "block",
+        "execute"
+      ],
+      "target_policy": "minimum_intervention_contrastive_v2",
+      "task_id_unique": true
+    },
+    "validation": {
+      "complete_task_alignment": true,
+      "dpo_count": 1200,
+      "forbidden_prompt_keys": [],
+      "frozen_test_accessed": false,
+      "mode_balanced_by_downsampling": false,
+      "one_to_one_task_alignment": false,
+      "pair_family_distribution": {
+        "block_over_unauthorized_execution": 286,
+        "block_over_unresolvable_ask": 286,
+        "confirmation_over_premature_execution": 84,
+        "confirmation_over_unnecessary_block": 84,
+        "safe_execution_over_external_target": 230,
+        "safe_execution_over_unnecessary_block": 230
+      },
+      "pairs_per_task_distribution": {
+        "2": 600
+      },
+      "passed": true,
+      "record_count": 600,
+      "selected_task_ids_sha256": "80c7f82ae3ab3ab720e630b1f387773f49cb1f38e922c890b5a26a99610af55b",
+      "selection_seed": null,
+      "sft_count": 600,
+      "source_record_count": 600,
+      "source_target_mode_distribution": {
+        "ask": 84,
+        "block": 286,
+        "execute": 230
+      },
+      "target_mode_distribution": {
+        "ask": 84,
+        "block": 286,
+        "execute": 230
+      },
+      "target_mode_scope": [
+        "ask",
+        "block",
+        "execute"
+      ],
+      "target_policy": "minimum_intervention_contrastive_v2",
+      "task_id_unique": true
+    }
+  },
+  "eligibility": {
+    "data_pipeline_smoke": true,
+    "formal_sft_or_dpo_claim": false,
+    "frozen_test_accessed": false,
+    "reason": "This artifact supports controlled cold-start mechanism diagnostics only. Targets cover execute/ask/block; sandbox/rewrite/stop require distinct semantic triggers and human review in a later dataset version."
+  },
+  "files": {
+    "train_dpo": {
+      "bytes": 19487343,
+      "path": "data/processed/mail_training_v0_2_contrastive_v2/train.dpo.jsonl",
+      "records": 4476,
+      "sha256": "9ce39222dd72d78a03270c6fd9edc9ecd90f59905af7a466d232b8c06718643c"
+    },
+    "train_sft": {
+      "bytes": 8236950,
+      "path": "data/processed/mail_training_v0_2_contrastive_v2/train.sft.jsonl",
+      "records": 2238,
+      "sha256": "da99c61489a8cb94b5cd128846c33f3e5f5dde9096ae278b32102fbc57f327c0"
+    },
+    "validation_dpo": {
+      "bytes": 5309608,
+      "path": "data/processed/mail_training_v0_2_contrastive_v2/validation.dpo.jsonl",
+      "records": 1200,
+      "sha256": "955aef3c9b8369988c9fd90e87320f51c5c573a3548b5608c071ea32522ceb44"
+    },
+    "validation_sft": {
+      "bytes": 2246330,
+      "path": "data/processed/mail_training_v0_2_contrastive_v2/validation.sft.jsonl",
+      "records": 600,
+      "sha256": "7adaffb19563368a574a6d9efffc1376b9e334c05e0d6fef28ef86da96985eec"
+    }
+  },
+  "source_dataset": {
+    "dataset_id": "dynacapa_mail_v0_2",
+    "dataset_version": "0.2.0",
+    "manifest_path": "data/manifests/dynacapa_mail_v0_2.manifest.json",
+    "manifest_sha256": "9c0d2b954a48b39cc25b61e5493c2835d84c89689abdc1f3f586691e8ec752f2",
+    "splits": [
+      "train",
+      "validation"
+    ]
+  },
+  "target_policy": "minimum_intervention_contrastive_v2"
+}

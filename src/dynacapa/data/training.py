@@ -54,8 +54,14 @@ class TrainingCompileConfig(StrictModel):
     )
     output_dir: str = Field(min_length=1)
     manifest_path: str = Field(min_length=1)
-    target_policy: Literal["minimum_intervention_v1"] = "minimum_intervention_v1"
-    artifact_status: Literal["pipeline_smoke_only"] = "pipeline_smoke_only"
+    target_policy: Literal[
+        "minimum_intervention_v1", "minimum_intervention_contrastive_v2"
+    ] = "minimum_intervention_v1"
+    artifact_status: Literal[
+        "pipeline_smoke_only", "mechanism_diagnostic_only"
+    ] = "pipeline_smoke_only"
+    balance_train_modes: bool = False
+    selection_seed: int = 20260913
 
     @model_validator(mode="after")
     def unique_splits(self) -> TrainingCompileConfig:
@@ -92,7 +98,13 @@ class DPOExample(StrictModel):
         "safe_execution_over_external_target",
         "confirmation_over_premature_execution",
         "block_over_unauthorized_execution",
+        "safe_execution_over_unnecessary_block",
+        "confirmation_over_unnecessary_block",
+        "block_over_unresolvable_ask",
     ]
+    rejection_basis: Literal[
+        "verifier_hard_violation", "policy_suboptimality"
+    ] = "verifier_hard_violation"
     rejection_reasons: tuple[ReasonCode, ...]
     source_fingerprint: str = Field(min_length=64, max_length=64)
 
@@ -105,8 +117,20 @@ class TrainingCompilation(StrictModel):
 
 def compile_training_examples(
     records: tuple[MailTaskRecord, ...],
+    *,
+    target_policy: Literal[
+        "minimum_intervention_v1", "minimum_intervention_contrastive_v2"
+    ] = "minimum_intervention_v1",
+    balance_modes: bool = False,
+    selection_seed: int = 20260913,
 ) -> TrainingCompilation:
-    """Compile one deterministic SFT target and one budget-matched DPO pair per task."""
+    """Compile deterministic, leakage-controlled SFT targets and DPO pairs.
+
+    ``minimum_intervention_v1`` preserves the original one-pair smoke artifact.
+    ``minimum_intervention_contrastive_v2`` adds a hard-safety contrast and a
+    mode-disambiguation contrast per task.  Optional balancing is deterministic
+    down-sampling, never duplication, so effective sample counts remain auditable.
+    """
 
     if not records:
         raise ValueError("training compilation requires at least one record")
@@ -116,24 +140,37 @@ def compile_training_examples(
     if len({record.task_id for record in records}) != len(records):
         raise ValueError("task_id values must be unique")
 
+    original_mode_counts = Counter(
+        _minimum_intervention(record).mode.value for record in records
+    )
+    selected_records = (
+        _balanced_records(records, selection_seed=selection_seed)
+        if balance_modes
+        else tuple(sorted(records, key=lambda item: item.task_id))
+    )
+
     sft_examples: list[SFTExample] = []
     dpo_examples: list[DPOExample] = []
-    for record in sorted(records, key=lambda item: item.task_id):
+    for record in selected_records:
         prompt = _prompt(record)
-        chosen, rejected, reasons, family = _preference(record)
-        chosen_json = _policy_json(chosen)
-        rejected_json = _policy_json(rejected)
-        if chosen_json == rejected_json:
-            raise AssertionError(f"identical preference responses for {record.task_id}")
-        completion = (TrainingMessage(role="assistant", content=chosen_json),)
-        rejected_completion = (
-            TrainingMessage(role="assistant", content=rejected_json),
+        preferences = (
+            (_preference(record),)
+            if target_policy == "minimum_intervention_v1"
+            else _contrastive_preferences(record)
         )
+        chosen = preferences[0][0]
+        chosen_json = _policy_json(chosen)
+        completion = (TrainingMessage(role="assistant", content=chosen_json),)
         split = record.split
         assert split in {"train", "validation"}
+        version_tag = (
+            "minimal-v1"
+            if target_policy == "minimum_intervention_v1"
+            else "contrastive-v2"
+        )
         sft_examples.append(
             SFTExample(
-                example_id=f"{record.task_id}:sft:minimal-v1",
+                example_id=f"{record.task_id}:sft:{version_tag}",
                 task_id=record.task_id,
                 split=split,
                 prompt=prompt,
@@ -142,21 +179,35 @@ def compile_training_examples(
                 source_fingerprint=record.provenance.record_fingerprint,
             )
         )
-        dpo_examples.append(
-            DPOExample(
-                example_id=f"{record.task_id}:dpo:minimal-v1",
-                task_id=record.task_id,
-                split=split,
-                prompt=prompt,
-                chosen=completion,
-                rejected=rejected_completion,
-                chosen_mode=chosen.mode,
-                rejected_mode=rejected.mode,
-                pair_family=family,
-                rejection_reasons=reasons,
-                source_fingerprint=record.provenance.record_fingerprint,
+        for pair_index, (pair_chosen, rejected, reasons, family, basis) in enumerate(
+            preferences
+        ):
+            if _policy_json(pair_chosen) != chosen_json:
+                raise AssertionError(f"inconsistent chosen response for {record.task_id}")
+            rejected_json = _policy_json(rejected)
+            if chosen_json == rejected_json:
+                raise AssertionError(f"identical preference responses for {record.task_id}")
+            dpo_example_id = (
+                f"{record.task_id}:dpo:minimal-v1"
+                if target_policy == "minimum_intervention_v1"
+                else f"{record.task_id}:dpo:{version_tag}:{pair_index}"
             )
-        )
+            fields: dict[str, Any] = {
+                "example_id": dpo_example_id,
+                "task_id": record.task_id,
+                "split": split,
+                "prompt": prompt,
+                "chosen": completion,
+                "rejected": (TrainingMessage(role="assistant", content=rejected_json),),
+                "chosen_mode": chosen.mode,
+                "rejected_mode": rejected.mode,
+                "pair_family": family,
+                "rejection_reasons": reasons,
+                "source_fingerprint": record.provenance.record_fingerprint,
+            }
+            if target_policy == "minimum_intervention_contrastive_v2":
+                fields["rejection_basis"] = basis
+            dpo_examples.append(DPOExample.model_validate(fields))
 
     prompt_text = "\n".join(
         message.content for example in sft_examples for message in example.prompt
@@ -167,12 +218,15 @@ def compile_training_examples(
 
     mode_counts = Counter(example.target_mode.value for example in sft_examples)
     pair_counts = Counter(example.pair_family for example in dpo_examples)
+    pairs_per_task = Counter(example.task_id for example in dpo_examples)
     audit = {
         "passed": True,
-        "record_count": len(records),
+        "record_count": len(selected_records),
         "sft_count": len(sft_examples),
         "dpo_count": len(dpo_examples),
-        "one_to_one_task_alignment": len(sft_examples) == len(dpo_examples) == len(records),
+        "one_to_one_task_alignment": (
+            len(sft_examples) == len(dpo_examples) == len(records)
+        ),
         "task_id_unique": True,
         "forbidden_prompt_keys": leaked_keys,
         "target_mode_distribution": dict(sorted(mode_counts.items())),
@@ -180,6 +234,30 @@ def compile_training_examples(
         "target_mode_scope": ["ask", "block", "execute"],
         "frozen_test_accessed": False,
     }
+    if target_policy == "minimum_intervention_contrastive_v2":
+        audit.update(
+            {
+                "source_record_count": len(records),
+                "complete_task_alignment": (
+                    {example.task_id for example in sft_examples}
+                    == {example.task_id for example in dpo_examples}
+                ),
+                "source_target_mode_distribution": dict(
+                    sorted(original_mode_counts.items())
+                ),
+                "pairs_per_task_distribution": dict(
+                    sorted(Counter(pairs_per_task.values()).items())
+                ),
+                "target_policy": target_policy,
+                "mode_balanced_by_downsampling": balance_modes,
+                "selection_seed": selection_seed if balance_modes else None,
+                "selected_task_ids_sha256": sha256_bytes(
+                    "\n".join(example.task_id for example in sft_examples).encode(
+                        "utf-8"
+                    )
+                ),
+            }
+        )
     return TrainingCompilation(
         sft=tuple(sft_examples), dpo=tuple(dpo_examples), audit=audit
     )
@@ -201,7 +279,11 @@ def read_records(path: Path) -> tuple[MailTaskRecord, ...]:
 def canonical_jsonl(models: tuple[StrictModel, ...]) -> bytes:
     return (
         "\n".join(
-            json.dumps(model.model_dump(mode="json"), ensure_ascii=False, sort_keys=True)
+            json.dumps(
+                model.model_dump(mode="json", exclude_unset=True),
+                ensure_ascii=False,
+                sort_keys=True,
+            )
             for model in models
         )
         + "\n"
@@ -267,7 +349,13 @@ def _prompt(record: MailTaskRecord) -> tuple[TrainingMessage, ...]:
 
 def _preference(
     record: MailTaskRecord,
-) -> tuple[PolicyOutput, ActionPolicyOutput, tuple[ReasonCode, ...], str]:
+) -> tuple[
+    PolicyOutput,
+    PolicyOutput,
+    tuple[ReasonCode, ...],
+    str,
+    Literal["verifier_hard_violation", "policy_suboptimality"],
+]:
     if record.ground_truth.legal_actions:
         chosen = _action_output(record, record.ground_truth.legal_actions[0], unsafe=False)
         rejected = _action_output(record, record.ground_truth.illegal_actions[0], unsafe=True)
@@ -295,7 +383,88 @@ def _preference(
         POLICY_OUTPUT_ADAPTER.validate_python(chosen.model_dump(mode="json"))
 
     result = _assert_verification(record, rejected, expected_violation=True)
-    return chosen, rejected, result.reason_codes, family
+    return chosen, rejected, result.reason_codes, family, "verifier_hard_violation"
+
+
+def _contrastive_preferences(
+    record: MailTaskRecord,
+) -> tuple[
+    tuple[
+        PolicyOutput,
+        PolicyOutput,
+        tuple[ReasonCode, ...],
+        str,
+        Literal["verifier_hard_violation", "policy_suboptimality"],
+    ],
+    ...,
+]:
+    """Return one hard-safety and one mode-disambiguation contrast.
+
+    The second contrast explicitly penalizes excessive restriction: legal
+    execution must beat an unnecessary block, confirmation must beat a terminal
+    block, and an unresolvable authorization failure must beat an unnecessary ask.
+    """
+
+    hard = _preference(record)
+    chosen = hard[0]
+    if chosen.mode == PolicyMode.EXECUTE:
+        alternative: PolicyOutput = BlockPolicyOutput(
+            mode=PolicyMode.BLOCK,
+            reason_code=ReasonCode.SHIELD_BLOCKED,
+            detail="Block the action despite a verifier-valid executable authorization.",
+        )
+        family = "safe_execution_over_unnecessary_block"
+    elif chosen.mode == PolicyMode.ASK:
+        alternative = BlockPolicyOutput(
+            mode=PolicyMode.BLOCK,
+            reason_code=ReasonCode.CONFIRMATION_REQUIRED,
+            detail="Block instead of requesting the single missing confirmation.",
+        )
+        family = "confirmation_over_unnecessary_block"
+    else:
+        alternative = AskPolicyOutput(
+            mode=PolicyMode.ASK,
+            question="Please confirm an action for which no executable authorization exists.",
+            missing_fields=("authorization",),
+        )
+        family = "block_over_unresolvable_ask"
+    POLICY_OUTPUT_ADAPTER.validate_python(alternative.model_dump(mode="json"))
+    return (
+        hard,
+        (chosen, alternative, (), family, "policy_suboptimality"),
+    )
+
+
+def _minimum_intervention(record: MailTaskRecord) -> PolicyOutput:
+    return _preference(record)[0]
+
+
+def _balanced_records(
+    records: tuple[MailTaskRecord, ...], *, selection_seed: int
+) -> tuple[MailTaskRecord, ...]:
+    by_mode: dict[str, list[MailTaskRecord]] = {}
+    for record in records:
+        mode = _minimum_intervention(record).mode.value
+        by_mode.setdefault(mode, []).append(record)
+    expected = {"ask", "block", "execute"}
+    if set(by_mode) != expected:
+        raise ValueError(
+            f"mode balancing requires exactly {sorted(expected)}; got {sorted(by_mode)}"
+        )
+    target_count = min(len(items) for items in by_mode.values())
+
+    def selection_key(record: MailTaskRecord) -> tuple[str, str]:
+        digest = hashlib.sha256(
+            f"{selection_seed}:{record.task_id}".encode("utf-8")
+        ).hexdigest()
+        return digest, record.task_id
+
+    selected = [
+        record
+        for mode in sorted(by_mode)
+        for record in sorted(by_mode[mode], key=selection_key)[:target_count]
+    ]
+    return tuple(sorted(selected, key=lambda item: item.task_id))
 
 
 def _requested_action(record: MailTaskRecord) -> GroundTruthAction:

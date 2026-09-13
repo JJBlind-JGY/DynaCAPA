@@ -67,7 +67,12 @@ def main() -> int:
                 f"source hash mismatch for {split}: {actual_source_hash} != {expected_source_hash}"
             )
         records = read_records(source)
-        compilation = compile_training_examples(records)
+        compilation = compile_training_examples(
+            records,
+            target_policy=config.target_policy,
+            balance_modes=config.balance_train_modes and split == "train",
+            selection_seed=config.selection_seed,
+        )
         audits[split] = compilation.audit
         for kind, models in (("sft", compilation.sft), ("dpo", compilation.dpo)):
             content = canonical_jsonl(models)
@@ -81,8 +86,13 @@ def main() -> int:
             }
             pending.append((path, content))
 
+    artifact_id = (
+        "dynacapa_mail_training_v0_2_minimal_v1"
+        if config.target_policy == "minimum_intervention_v1"
+        else "dynacapa_mail_training_v0_2_contrastive_v2"
+    )
     manifest = {
-        "artifact_id": "dynacapa_mail_training_v0_2_minimal_v1",
+        "artifact_id": artifact_id,
         "artifact_status": config.artifact_status,
         "target_policy": config.target_policy,
         "source_dataset": {
@@ -99,8 +109,16 @@ def main() -> int:
             "formal_sft_or_dpo_claim": False,
             "frozen_test_accessed": False,
             "reason": (
-                "Minimum-intervention targets cover execute/ask/block only; "
-                "sandbox/rewrite/stop need distinct semantic triggers in a later dataset version."
+                (
+                    "Minimum-intervention targets cover execute/ask/block only; "
+                    "sandbox/rewrite/stop need distinct semantic triggers in a later dataset version."
+                )
+                if config.target_policy == "minimum_intervention_v1"
+                else (
+                    "This artifact supports controlled cold-start mechanism diagnostics only. "
+                    "Targets cover execute/ask/block; sandbox/rewrite/stop require distinct "
+                    "semantic triggers and human review in a later dataset version."
+                )
             ),
         },
     }
