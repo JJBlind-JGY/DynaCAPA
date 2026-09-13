@@ -1,0 +1,62 @@
+{
+  "analysis_type": "post_hoc_protocol_diagnostic",
+  "primary_metrics_modified": false,
+  "inputs": {
+    "generations_path": "outputs/runs/phase2/policy_eval_qwen3_0_6b_balanced64_contrastive32_sftloss_mail_v0_2_pilot_seed20260912/generations.jsonl",
+    "generations_sha256": "d068017a82b15f0959249f4103cbc5ee58dfd4e87730dc4c74a4ea61dd1ae438",
+    "scores_path": "outputs/runs/phase2/policy_eval_qwen3_0_6b_balanced64_contrastive32_sftloss_mail_v0_2_pilot_seed20260912/scores.jsonl",
+    "scores_sha256": "55e8a923e2a92c990d3896ef785612db1a62928527527a2408916f5b1cd091b8",
+    "generation_token_cap": 512
+  },
+  "counts": {
+    "samples": 60,
+    "schema_invalid": 17,
+    "invalid_json": 6,
+    "completion_cap_hits": 3,
+    "invalid_completion_cap_hits": 3
+  },
+  "confusion_matrix": {
+    "ask": {
+      "ask": 14,
+      "block": 6
+    },
+    "block": {
+      "__invalid__": 3,
+      "ask": 8,
+      "block": 14
+    },
+    "execute": {
+      "__invalid__": 14,
+      "ask": 1
+    }
+  },
+  "invalid_target_mode": {
+    "block": 3,
+    "execute": 14
+  },
+  "invalid_intended_mode": {
+    "block": 3,
+    "execute": 14
+  },
+  "invalid_intent_extraction": {
+    "exact_json": 11,
+    "regex_fallback": 6
+  },
+  "missing_field_frequency": {
+    "args": 9,
+    "proof.rollback_plan": 8,
+    "proof.object_scope": 7,
+    "tool": 7,
+    "$": 6,
+    "proof.source_refs": 4,
+    "termination": 4,
+    "proof.target_scope": 3,
+    "proof.tool_schema_version": 3,
+    "proof.action_type": 2,
+    "proof.authorization_refs": 2,
+    "proof.expected_effects": 2,
+    "reason_code": 2,
+    "schema_version": 2
+  },
+  "claim_boundary": "Regex-derived intent is descriptive failure analysis only; malformed outputs remain invalid in every primary metric."
+}

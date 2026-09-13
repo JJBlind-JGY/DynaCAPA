@@ -1,0 +1,3 @@
+{"task_id":"a","raw_output":"{\"mode\":\"ask\"}","completion_tokens":9}
+{"task_id":"b","raw_output":"{\"mode\":\"execute\",\"proof\":{}}","completion_tokens":20}
+{"task_id":"c","raw_output":"{\"mode\":\"block\",\"detail\":\"truncated","completion_tokens":32}

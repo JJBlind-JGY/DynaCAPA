@@ -44,6 +44,26 @@ to 1.0 and eliminated Schema-valid unauthorized actions, but inference collapsed
 to 45 valid `block` outputs plus 15 invalid outputs: no valid `ask` or `execute`,
 PVR 0, mode macro-F1 0.2381, and Shield Rate 25.0%.
 
-Therefore Gate B remains **not passed**. The next cold-start revision must
-balance mode supervision, add distinct `sandbox/rewrite/stop` semantics, and
-verify valid execution certificates rather than extending DPO dosage blindly.
+The deterministic contrastive-v2 view then balanced the SFT training subset to
+746/746/746 `ask/block/execute` records without duplication and added six
+equal-count bidirectional preference families. Balanced SFT64 produced 100%
+Schema validity, PVR 1.0, UPR 0, and macro-F1 0.4661, but shifted the collapse
+to 50 `ask`, one `block`, and nine `execute` outputs. Sigmoid contrastive DPO32
+reached preference accuracy 1.0 while destroying the protocol language: only
+9/60 outputs were Schema-valid. An equal-dose, pre-registered sigmoid+chosen-SFT
+diagnostic recovered Schema validity to 71.7% and macro-F1 to 0.4245, but still
+produced no valid `execute` and PVR remained 0.
+
+Therefore Gate B remains **not passed**. The evidence rejects simple rebalancing,
+longer DPO, and a one-off chosen-likelihood term as sufficient fixes. Per
+ADR-0005, this DPO branch is stopped rather than followed by post-hoc loss-weight
+tuning. The next cold-start dataset must add independently observable
+`sandbox/rewrite/stop` semantics and a hierarchical decision/certificate target
+that preserves legal execution as an explicit capability.
+
+The retained-output failure analyzer reports that 14/17 malformed outputs were
+attempted `execute` responses, with `args`, rollback, scope, and outer tool fields
+dominating omissions; only three hit the token cap. ADR-0006 and the tested v0.3
+mode oracle therefore separate semantic mode selection from action binding and
+proof completion. This is implementation progress, not a v0.3 data release or a
+Gate B result.

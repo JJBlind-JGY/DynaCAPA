@@ -1,0 +1,3 @@
+{"task_id":"a","target_mode":"ask","predicted_mode":"ask","schema_valid":true,"json_valid":true,"missing_fields":[]}
+{"task_id":"b","target_mode":"execute","predicted_mode":"__invalid__","schema_valid":false,"json_valid":true,"missing_fields":["args","proof.object_scope"]}
+{"task_id":"c","target_mode":"block","predicted_mode":"__invalid__","schema_valid":false,"json_valid":false,"missing_fields":["$"]}

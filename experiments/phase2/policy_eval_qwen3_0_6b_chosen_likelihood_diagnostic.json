@@ -1,0 +1,89 @@
+{
+  "artifact_id": "policy_eval_qwen3_0_6b_chosen_likelihood_diagnostic",
+  "protocol_version": "policy-eval-v1",
+  "status": "completed_engineering_diagnostic",
+  "pre_registration_commit": "2080fe991e8db423f3f2d0e6e09b27f4ef4c4160",
+  "source_manifest_sha256": "9c0d2b954a48b39cc25b61e5493c2835d84c89689abdc1f3f586691e8ec752f2",
+  "training_manifest_sha256": "4a6a4bb97c44a2cdea2c7c53b0b828c2d49cbc7ba50f712a41799e93ced9cd95",
+  "ordered_task_ids_sha256": "8e53e78a899ccfb9f5b3034dc75563daa52bf4f601043a7d12e011e09bb0d824",
+  "sample_count": 60,
+  "same_ordered_sample": true,
+  "frozen_test_accessed": false,
+  "controlled_change": {
+    "fixed": [
+      "balanced SFT64 initialization",
+      "4476 contrastive training pairs",
+      "32 optimizer steps",
+      "effective batch size 4",
+      "learning rate 1e-5",
+      "beta 0.1",
+      "seed 20260912",
+      "validation and generation protocols"
+    ],
+    "changed": "loss_type from sigmoid to equal-weight sigmoid+sft",
+    "post_hoc_weight_search": false
+  },
+  "training_result": {
+    "eval_loss": 0.09076467901468277,
+    "eval_preference_accuracy": 1.0,
+    "eval_preference_margin": 5.2510111032958825,
+    "eval_chosen_token_accuracy": 0.9800037379956286,
+    "train_loss": 0.20505519956350327,
+    "adapter_sha256": "e7b7bf594a3c51409da4706c2184feadb4db5fd1ec2cf6232ad84b22889b7714"
+  },
+  "generation_result": {
+    "run_id": "policy_eval_qwen3_0_6b_balanced64_contrastive32_sftloss_mail_v0_2_pilot_seed20260912",
+    "config_sha256": "e7653814452b1ece141bd39f4d28e3516c674d76047458f45f13908baed2255e",
+    "generations_sha256": "d068017a82b15f0959249f4103cbc5ee58dfd4e87730dc4c74a4ea61dd1ae438",
+    "scores_sha256": "55e8a923e2a92c990d3896ef785612db1a62928527527a2408916f5b1cd091b8",
+    "summary_sha256": "fd732da626b20afb6bcd2d6ff032c57b37807de78e9b0b7df6fc017bd474127c",
+    "predicted_mode": {
+      "__invalid__": 17,
+      "ask": 23,
+      "block": 20,
+      "execute": 0
+    },
+    "metrics": {
+      "json_valid_rate": 0.9,
+      "schema_valid_rate": 0.7166666666666667,
+      "field_complete_rate": 0.7166666666666667,
+      "mode_accuracy": 0.4666666666666667,
+      "mode_macro_f1": 0.42446167097329884,
+      "pvr": 0.0,
+      "upr": 0.0,
+      "format_or_safety_failure_rate": 0.2833333333333333,
+      "fbr": 0.06666666666666667,
+      "shield_rate": 0.2833333333333333
+    },
+    "mode_recall": {
+      "ask": 0.7,
+      "block": 0.56,
+      "execute": 0.0
+    }
+  },
+  "comparators": {
+    "balanced_sft64": {
+      "generations_sha256": "c8e600ccea6fdbf02bb2209e195831e60b569c072fba1ca5a2e828e602ebbc40",
+      "schema_valid_rate": 1.0,
+      "mode_macro_f1": 0.46611721611721607,
+      "pvr": 1.0,
+      "predicted_execute": 9,
+      "execute_recall": 0.6
+    },
+    "balanced_contrastive_dpo32": {
+      "generations_sha256": "040b52c9b1ed018887de05bdb46908c125117712c08a70d64bfc9701f43d914c",
+      "schema_valid_rate": 0.15,
+      "mode_macro_f1": 0.04597701149425288,
+      "pvr": 0.0,
+      "predicted_execute": 0,
+      "execute_recall": 0.0
+    }
+  },
+  "interpretation": {
+    "structured_language_restored_relative_to_sigmoid_only": true,
+    "legal_execute_preserved": false,
+    "gate_b_passed": false,
+    "decision": "Stop this DPO branch. Do not tune loss weights post hoc; redesign six-mode observable semantics and hierarchical action/certificate supervision before a larger model run.",
+    "claim_boundary": "Single-seed Qwen3-0.6B engineering diagnostic on 60 validation cases; not Gate B or paper-effect evidence."
+  }
+}
