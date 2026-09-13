@@ -1,0 +1,48 @@
+config_version: "1.0"
+run_id: sft_qwen3_0_6b_mail_v0_2_smoke_seed20260912
+stage: sft
+purpose: pipeline_smoke
+enabled: true
+seed: 20260912
+output_dir: outputs/runs/phase2/sft_qwen3_0_6b_mail_v0_2_smoke_seed20260912
+model:
+  model_id: Qwen/Qwen3-0.6B
+  revision: c1899de289a04d12100db370d81485cdf75e47ca
+  initial_adapter_path: null
+  trust_remote_code: false
+data:
+  manifest_path: data/manifests/dynacapa_mail_training_v0_2_minimal_v1.manifest.json
+  manifest_sha256: d23487bf985daf0d2ba0e916c4e5240725d9f7a4d1b1ad3ef3efb1e02eded5ba
+  train_key: train_sft
+  validation_key: validation_sft
+lora:
+  rank: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: all-linear
+  bias: none
+trainer:
+  max_length: 4096
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 4
+  learning_rate: 0.00005
+  max_steps: 8
+  warmup_ratio: 0.1
+  logging_steps: 1
+  eval_steps: 4
+  save_steps: 4
+  save_total_limit: 2
+  gradient_checkpointing: true
+  bf16: true
+  tf32: true
+  packing: false
+  completion_only_loss: true
+  loss_type: null
+  beta: null
+hardware:
+  require_linux: true
+  min_gpu_count: 1
+  min_gpu_memory_gib: 20
+  require_bf16: true
+expected_dependency_lock: requirements/training-linux-py311.lock.txt

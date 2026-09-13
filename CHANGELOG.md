@@ -2,6 +2,10 @@
 
 ## 2026-09-13
 
+- Added a single fail-closed TRL training entry point with strict SFT/DPO configs, pinned model revision, data-hash verification, frozen-test protection, output non-overwrite, run registration, clean-Git, Linux/GPU/VRAM/BF16, and dependency-lock gates.
+- Added eight-step Qwen3-0.6B LoRA SFT and sigmoid-DPO smoke configs; DPO is dependency-ordered on the exact SFT adapter.
+- Expanded server preflight reporting for PyTorch/CUDA/NCCL/BF16, GPU inventory, VRAM thresholds, and the complete training stack.
+- Added a server training protocol that defers the PyTorch/CUDA lock decision until read-only inspection of the actual Linux host.
 - Recorded the qualitative human dataset acceptance without inventing row-level agreement or recall statistics; released data-pipeline smoke work while keeping formal Gate A closed.
 - Added a deterministic, frozen-test-sealed compiler producing one TRL-style SFT example and one verifier-grounded DPO pair per Mail train/validation task.
 - Added oracle-field leakage checks, source-hash verification, immutable output manifests, and explicit three-mode smoke-only eligibility.

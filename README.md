@@ -52,3 +52,17 @@ The current `minimum_intervention_v1` artifact is deliberately marked
 `pipeline_smoke_only`: it covers `execute`, `ask`, and `block`. Distinct observable
 triggers for `sandbox`, `rewrite`, and `stop` will be added in a separately reviewed
 dataset version before a six-mode Gate B claim.
+
+## Training entry point
+
+All TRL cold-start runs use `scripts/train.py`; configuration changes belong under
+`configs/sft/` or `configs/preference/`, not in duplicate scripts. Without
+`--execute`, the command performs a read-only readiness audit. The first server run
+is the pinned Qwen3-0.6B eight-step SFT smoke configuration:
+
+```bash
+python scripts/train.py --config configs/sft/qwen3_0_6b_smoke.yaml
+```
+
+See `docs/SERVER_TRAINING_PROTOCOL.md` for server discovery, dependency locking,
+data reconstruction, registration, and launch requirements.
