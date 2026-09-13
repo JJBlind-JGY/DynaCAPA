@@ -102,8 +102,9 @@ def main() -> int:
         "variants": variants,
         "numeric_metric_deltas": _pairwise_deltas(metrics),
         "claim_boundary": (
-            "Sixty-case validation engineering pilot for 0.6B eight-step adapters; "
-            "not population-weighted and not Gate B evidence."
+            "Sixty-case validation engineering comparison for 0.6B calibration "
+            "models with run-specific training doses; not population-weighted and "
+            "not Gate B evidence."
         ),
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)

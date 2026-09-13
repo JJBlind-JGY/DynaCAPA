@@ -22,7 +22,7 @@ Mail v0.2 now has a deterministic compiler for one SFT example and one DPO pair 
 
 This artifact is not eligible for a six-mode Gate B claim: v0.2 does not provide distinct observable triggers for `sandbox`, `rewrite`, and `stop`. ADR-0003 requires those semantics to be introduced and reviewed in a new dataset version before formal main-model training.
 
-## Engineering smoke status
+## Engineering smoke and dose-calibration status
 
 The target Linux environment, pinned Qwen3-0.6B revision, SFT data path, LoRA
 adapter export, checkpointing, and dependent sigmoid-DPO path have completed an
@@ -33,3 +33,17 @@ run to commit `34d4618` and the DPO run to commit `3deb9af`.
 This evidence validates execution of the cold-start pipeline only. It does not
 change Gate A or Gate B status, and the smoke losses or preference accuracy must
 not be presented as model-quality results.
+
+The unified `policy-eval-v1` evaluator was then run on the same ordered 60-case
+validation sample (10 cases per diagnostic group). Eight-step Base/SFT/DPO
+models produced no Schema-valid output, although SFT raised exact-JSON validity
+from 10.0% to 95.0%. A 64-step SFT calibration raised Schema validity to 91.7%
+but collapsed to 54 valid `execute` outputs, yielding UPR 65.0% and Shield Rate
+73.3%. A 32-step DPO calibration from SFT64 drove training preference accuracy
+to 1.0 and eliminated Schema-valid unauthorized actions, but inference collapsed
+to 45 valid `block` outputs plus 15 invalid outputs: no valid `ask` or `execute`,
+PVR 0, mode macro-F1 0.2381, and Shield Rate 25.0%.
+
+Therefore Gate B remains **not passed**. The next cold-start revision must
+balance mode supervision, add distinct `sandbox/rewrite/stop` semantics, and
+verify valid execution certificates rather than extending DPO dosage blindly.
