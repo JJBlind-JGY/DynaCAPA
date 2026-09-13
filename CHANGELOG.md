@@ -6,6 +6,7 @@
 - Added controlled parameter-source/value and task-object-invariant probes to distinguish provenance, clean authorization plans, benign evidence, and dynamic authorization semantics.
 - Fixed the Proof Checker so a trusted source must support the actual critical-argument value rather than merely having an allowed source type.
 - Added a literature-positioning and external-validity plan covering AgentDojo, AgentDyn, AuthGraph, ARGUS, CVT-RL, and the executed-replay credit audit.
+- Added a guarded manual-review analyzer for per-mode metrics, acceptable-mode membership, severe-case recall, reason agreement, Wilson intervals, inter-review Cohen's kappa, and adjudication queues.
 
 ## 0.1.0 - 2026-09-12
 
