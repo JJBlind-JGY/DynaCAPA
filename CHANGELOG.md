@@ -9,6 +9,10 @@
   and fails when any SFT/DPO branch would require context truncation.
 - Recorded the Qwen3-0.6B SFT audit: all 5,400 train/validation examples fit
   without truncation, with maxima of 1,079 and 1,074 tokens respectively.
+- Completed the eight-step Qwen3-0.6B LoRA SFT engineering smoke on the target
+  server and retained its run manifest, status, trainer state, and adapter hash.
+- Recorded the DPO branch-length audit: all 10,800 chosen/rejected
+  train/validation branches fit without truncation.
 - Added a single fail-closed TRL training entry point with strict SFT/DPO configs, pinned model revision, data-hash verification, frozen-test protection, output non-overwrite, run registration, clean-Git, Linux/GPU/VRAM/BF16, and dependency-lock gates.
 - Added eight-step Qwen3-0.6B LoRA SFT and sigmoid-DPO smoke configs; DPO is dependency-ordered on the exact SFT adapter.
 - Expanded server preflight reporting for PyTorch/CUDA/NCCL/BF16, GPU inventory, VRAM thresholds, and the complete training stack.
