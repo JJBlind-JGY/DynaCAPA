@@ -20,6 +20,9 @@ Updated: 2026-09-13
 | Task 014 Dataset Generator v0 | Complete v0.2 | 60 templates; 4,800/600/1,200 records; semantic fingerprints; six validation groups; strictly isolated frozen test; tracked hashes and 30 canonical cases |
 | Task 015 D-CAPA Benchmark | Validation core, neighboring proxy probes, and review analysis pipeline complete | Original 1,300-candidate report remains reproducible. A separate 1,557-candidate diagnostic report adds transparent AuthGraph-style and ARGUS-style structured proxies plus parameter-source/value and task-invariant probes. 600+60 blinded human-review assignments are exported, and a guarded immutable analyzer is ready for per-mode metrics, Wilson intervals, Cohen's kappa, and adjudication queues; frozen test remains sealed. Full paper reproductions/external evaluation and completed human semantic evaluation remain. |
 | Phase 2 cold-start data | Pipeline-smoke artifact complete | 4,800/600 SFT examples and 4,800/600 verifier-grounded DPO pairs; prompt leakage audit, immutable hashes, frozen-test seal, and minimum-intervention target policy recorded |
-| Phase 2 TRL harness | Server-ready for 0.6B smoke | Strict configuration, pinned model revision, single guarded entry point, SFT-before-DPO dependency, data/manifest checks, Linux/GPU/BF16/dependency-lock/run-registration/clean-Git gates |
+| Phase 2 TRL harness | 0.6B SFT/DPO engineering chain complete | Target-server lock; strict configuration; pinned model revision; single guarded entry point; SFT-before-DPO dependency; data/manifest checks; Linux/GPU/BF16/dependency-lock/run-registration/clean-Git gates; token audits; run manifests and adapter hashes |
 
-No model optimizer step, DACPO/VICC training, File/DB domain, external benchmark, or real side-effect integration has been run. The Qwen3-0.6B SFT/DPO harness is prepared for an engineering-only server smoke test; this does not constitute formal training evidence or pass Gate B.
+Qwen3-0.6B completed eight SFT and eight DPO optimizer steps on the target Linux
+server. These are engineering-only smoke runs and do not constitute formal model
+evidence or pass Gate B. No Qwen3-4B main run, DACPO/VICC training, File/DB
+domain, external benchmark, or real side-effect integration has been run.

@@ -2,7 +2,12 @@
 
 DynaCAPA-RL studies how runtime authorization constraints can become native safety behavior in tool-using language-model agents. The repository follows the gate-based research contract in [DynaCAPA_RL_MASTER_EXPERIMENT_PLAN.md](DynaCAPA_RL_MASTER_EXPERIMENT_PLAN.md).
 
-The current milestone is the deterministic Mail sandbox vertical slice. It includes shared schemas, authorization/fact separation, dynamic contracts, proof checking, deterministic verification, a Shield, trajectory transitions, and snapshot replay. Model training is intentionally not enabled until Gate A passes.
+The current milestone is the deterministic Mail sandbox vertical slice plus a
+completed Qwen3-0.6B SFT/DPO engineering smoke chain. It includes shared schemas,
+authorization/fact separation, dynamic contracts, proof checking, deterministic
+verification, a Shield, trajectory transitions, snapshot replay, and a guarded
+TRL launcher. Formal main-model training remains disabled until the quantitative
+research gates are satisfied.
 
 ## Local setup (Windows)
 
@@ -19,7 +24,10 @@ The supported interpreter is Python 3.11. The project deliberately rejects the m
 
 ## Linux server setup
 
-Clone the private repository on the server, create the same Conda environment, then run the preflight script without `--allow-no-gpu`. GPU training dependencies are not part of the Phase 0 environment; they will be locked separately after CUDA/driver/NCCL validation.
+Clone the private repository on the server, create a Python 3.11 Conda
+environment, install `requirements/training-linux-py311.lock.txt`, then run the
+preflight script without `--allow-no-gpu`. The lock was resolved only after
+CUDA/driver/NCCL validation on the target host.
 
 ```bash
 conda env create -f environment.yml
@@ -57,11 +65,13 @@ dataset version before a six-mode Gate B claim.
 
 All TRL cold-start runs use `scripts/train.py`; configuration changes belong under
 `configs/sft/` or `configs/preference/`, not in duplicate scripts. Without
-`--execute`, the command performs a read-only readiness audit. The first server run
-is the pinned Qwen3-0.6B eight-step SFT smoke configuration:
+`--execute`, the command performs a read-only readiness audit. The pinned
+Qwen3-0.6B eight-step SFT and DPO engineering smokes have completed; they validate
+the pipeline but are not Gate B evidence. Readiness can be audited with:
 
 ```bash
 python scripts/train.py --config configs/sft/qwen3_0_6b_smoke.yaml
+python scripts/train.py --config configs/preference/qwen3_0_6b_smoke.yaml
 ```
 
 See `docs/SERVER_TRAINING_PROTOCOL.md` for server discovery, dependency locking,

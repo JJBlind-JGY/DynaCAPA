@@ -1,0 +1,101 @@
+{
+  "config": {
+    "config_version": "1.0",
+    "data": {
+      "manifest_path": "data/manifests/dynacapa_mail_training_v0_2_minimal_v1.manifest.json",
+      "manifest_sha256": "d23487bf985daf0d2ba0e916c4e5240725d9f7a4d1b1ad3ef3efb1e02eded5ba",
+      "train_key": "train_dpo",
+      "validation_key": "validation_dpo"
+    },
+    "enabled": true,
+    "expected_dependency_lock": "requirements/training-linux-py311.lock.txt",
+    "hardware": {
+      "min_gpu_count": 1,
+      "min_gpu_memory_gib": 20.0,
+      "require_bf16": true,
+      "require_linux": true
+    },
+    "lora": null,
+    "model": {
+      "initial_adapter_path": "outputs/runs/phase2/sft_qwen3_0_6b_mail_v0_2_smoke_seed20260912/adapter",
+      "model_id": "Qwen/Qwen3-0.6B",
+      "revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+      "trust_remote_code": false
+    },
+    "output_dir": "outputs/runs/phase2/dpo_qwen3_0_6b_mail_v0_2_smoke_seed20260912",
+    "purpose": "pipeline_smoke",
+    "run_id": "dpo_qwen3_0_6b_mail_v0_2_smoke_seed20260912",
+    "seed": 20260912,
+    "stage": "dpo",
+    "trainer": {
+      "beta": 0.1,
+      "bf16": true,
+      "completion_only_loss": true,
+      "eval_steps": 4,
+      "gradient_accumulation_steps": 4,
+      "gradient_checkpointing": true,
+      "learning_rate": 1e-05,
+      "logging_steps": 1,
+      "loss_type": "sigmoid",
+      "max_length": 4096,
+      "max_steps": 8,
+      "packing": false,
+      "per_device_eval_batch_size": 1,
+      "per_device_train_batch_size": 1,
+      "save_steps": 4,
+      "save_total_limit": 2,
+      "tf32": true,
+      "warmup_ratio": 0.1
+    }
+  },
+  "config_path": "configs/preference/qwen3_0_6b_smoke.yaml",
+  "git_commit": "3deb9af9a31d6eb29dd53c072c529c8593064089",
+  "packages": {
+    "accelerate": "1.15.0",
+    "datasets": "4.8.5",
+    "peft": "0.20.0",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.57.6",
+    "trl": "1.13.0"
+  },
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "readiness": {
+    "blockers": [],
+    "checks": {
+      "artifact_eligible_for_purpose": true,
+      "artifact_train_dpo_declared": true,
+      "artifact_train_dpo_exists": true,
+      "artifact_train_dpo_hash_matches": true,
+      "artifact_validation_dpo_declared": true,
+      "artifact_validation_dpo_exists": true,
+      "artifact_validation_dpo_hash_matches": true,
+      "config_enabled": true,
+      "dependency_lock_exists": true,
+      "frozen_test_sealed": true,
+      "initial_adapter_exists": true,
+      "manifest_exists": true,
+      "manifest_hash_matches": true,
+      "output_dir_absent": true,
+      "run_registered": true
+    },
+    "evidence": {
+      "artifacts": {
+        "train_dpo": {
+          "path": "data/processed/mail_training_v0_2_minimal_v1/train.dpo.jsonl",
+          "records": 4800,
+          "sha256": "3ba9f2854517d387d0094908b0a3d8bdbf04e8eb85a701c0b01dda6d605ca0be"
+        },
+        "validation_dpo": {
+          "path": "data/processed/mail_training_v0_2_minimal_v1/validation.dpo.jsonl",
+          "records": 600,
+          "sha256": "a416fb02384b3572aa5d37efff7af3dcd01122083c11201478ea3ecb517b5cc6"
+        }
+      },
+      "manifest_sha256": "d23487bf985daf0d2ba0e916c4e5240725d9f7a4d1b1ad3ef3efb1e02eded5ba"
+    },
+    "ready": true,
+    "run_id": "dpo_qwen3_0_6b_mail_v0_2_smoke_seed20260912"
+  },
+  "run_id": "dpo_qwen3_0_6b_mail_v0_2_smoke_seed20260912",
+  "started_at": "2026-09-13T09:29:47.699904+00:00"
+}

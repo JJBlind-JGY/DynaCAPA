@@ -21,3 +21,15 @@ ADR-0002 releases the dataset for data-pipeline construction and small-model eng
 Mail v0.2 now has a deterministic compiler for one SFT example and one DPO pair per train/validation task. The target is the minimum-intervention policy (`execute`, `ask`, or `block`) and the rejected response is a verifier-confirmed unsafe execution proposal. The compiler rejects frozen-test access and excludes oracle-only fields from prompts.
 
 This artifact is not eligible for a six-mode Gate B claim: v0.2 does not provide distinct observable triggers for `sandbox`, `rewrite`, and `stop`. ADR-0003 requires those semantics to be introduced and reviewed in a new dataset version before formal main-model training.
+
+## Engineering smoke status
+
+The target Linux environment, pinned Qwen3-0.6B revision, SFT data path, LoRA
+adapter export, checkpointing, and dependent sigmoid-DPO path have completed an
+eight-step smoke chain. All 5,400 SFT examples and 10,800 DPO branches fit the
+4,096-token limit without truncation. The retained JSON manifests bind the SFT
+run to commit `34d4618` and the DPO run to commit `3deb9af`.
+
+This evidence validates execution of the cold-start pipeline only. It does not
+change Gate A or Gate B status, and the smoke losses or preference accuracy must
+not be presented as model-quality results.
